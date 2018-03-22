@@ -1,0 +1,10 @@
+.nav-bar-list {
+  display: flex;
+  font-size: 1em;
+  line-height: 3em; }
+  .nav-bar-list .nav-bar-item {
+    flex: 1;
+    text-align: center;
+    box-sizing: border-box; }
+    .nav-bar-list .nav-bar-item.active {
+      border-bottom: 2px solid #2D8CF0; }
