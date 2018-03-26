@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import NavBar from './components/NavBar/NavBar';
+import React, { Component } from 'react'
+import './App.scss'
+import NavBar from './components/NavBar/NavBar'
 
 export default class App extends Component {
   render() {
@@ -9,7 +9,7 @@ export default class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Listen Music</h1>
         </header>
-        <NavBar/>
+        <NavBar />
       </div>
     );
   }
