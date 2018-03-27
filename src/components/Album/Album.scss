@@ -1,0 +1,34 @@
+.album-component {
+  .album-title {
+    font-size: 16px;
+    line-height: 3;
+    text-align: center;
+  }
+  .album-list {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    overflow: hidden;
+    justify-content: space-around;
+    .album-item {
+      width: 33%;
+      box-sizing: border-box;
+      img {
+        width: 100%;
+        height: auto;
+      }
+      .album-name,
+      .album-singer {
+        margin: 10px 0 10px 5px;
+        box-sizing: border-box;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #333;
+      }
+      .album-singer {
+        color: #999;
+      }
+    }
+  }
+}

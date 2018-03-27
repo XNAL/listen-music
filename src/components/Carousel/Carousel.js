@@ -4,8 +4,8 @@ import fetch from '../../fetch/index'
 import { Carousel } from 'antd-mobile'
 
 export default class CarouselComponent extends Component {
-  constructor (params) {
-    super(params)
+  constructor (props) {
+    super(props)
     this.state = {
       sliders: [],
       selectedIndex: 1 // 修改selectedIndex值，不然无法自动播放
@@ -18,6 +18,10 @@ export default class CarouselComponent extends Component {
           sliders: res.data.slider,
           selectedIndex: 0
         })
+      })
+    fetch.getLatestAlbum()
+      .then(res => {
+        console.log('getLatestAlbum', res.albumlib.data.list.slice(0, 6))
       })
   }
   render() {
