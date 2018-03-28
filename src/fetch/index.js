@@ -51,6 +51,37 @@ export default {
       prefix: "callback"
     };
     return fetchJsonp(JSONP_URL.latestAlbum, option, data);
+  },
+  /**
+   * @method 获取推荐歌单
+   * @type jsonp
+   * @return json
+   */
+  getPlayList () {
+    let playList = {
+      comm: {
+        ct: 24
+      },
+      recomPlaylist: {
+        method: 'get_hot_recommend',
+        param: {
+          async: 1,
+          cmd: 2
+        },
+        module: 'playlist.HotRecommendServer'
+      }
+    }
+    let data = Object.assign({}, JSONP_PARAMS, {
+      callback: 'recom46834914305012054',
+      g_tk: 1492455586,
+      jsonpCallback: 'recom46834914305012054',
+      loginUin: 772528797,
+      hostUin: 0,
+      platform: 'yqq',
+      needNewCode: 0,
+      data: JSON.stringify(playList)
+    })
+    return fetchJsonp(JSONP_URL.playList, {}, data);
   }
 }
   

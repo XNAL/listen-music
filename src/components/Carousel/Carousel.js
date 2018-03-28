@@ -19,10 +19,6 @@ export default class CarouselComponent extends Component {
           selectedIndex: 0
         })
       })
-    fetch.getLatestAlbum()
-      .then(res => {
-        console.log('getLatestAlbum', res.albumlib.data.list.slice(0, 6))
-      })
   }
   render() {
     return (
