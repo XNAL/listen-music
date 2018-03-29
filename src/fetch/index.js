@@ -45,12 +45,27 @@ export default {
       data: `{
         "albumlib": ${JSON.stringify(albumlib)}
       }`
-    });
+    })
     let option = {
       param: "callback",
       prefix: "callback"
-    };
+    }
     return fetchJsonp(JSONP_URL.latestAlbum, option, data);
+  },
+  /**
+   * @method 获取专辑详情
+   * @type jsonp
+   * @return json
+   */
+  getAlbumInfo (albumId) {
+    let data = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 33480508,
+      albummid: '003JxyaJ4KqeVM',
+      hostUin: 0,
+      platform: "yqq",
+      needNewCode: 0
+    })
+    return fetchJsonp(JSONP_URL.albumInfo, JSONP_OPTIONS, data);
   },
   /**
    * @method 获取推荐歌单

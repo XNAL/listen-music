@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './Album.scss'
 import fetch from '../../fetch/index'
 
@@ -30,16 +31,14 @@ export default class Album extends Component {
         <ul className="album-list">
           {this.state.albumList.map(val => (
             <li className="album-item" key={val.album_id} >
-              <a className="album-link"
-                href="" 
-              >
+              <Link to={`/AlbumInfo/${val.album_mid}`} className="album-link">
                 <img className="album-img"
                   src={`https://y.gtimg.cn/music/photo_new/T002R300x300M000${val.album_mid}.jpg?max_age=2592000`}
                   alt="专辑图片"
                 />
                 <p className="album-name">{val.album_name}</p>
                 <p className="album-singer">{this.handleSinger(val.singers)}</p>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

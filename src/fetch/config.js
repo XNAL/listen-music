@@ -3,6 +3,8 @@ export const JSONP_URL = {
   recommend: 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',
   // 最新专辑
   latestAlbum: "https://u.y.qq.com/cgi-bin/musicu.fcg",
+  // 专辑信息
+	albumInfo: "https://c.y.qq.com/v8/fcg-bin/fcg_v8_album_info_cp.fcg",
   // 推荐歌单
   playList: 'https://u.y.qq.com/cgi-bin/musicu.fcg'
 }

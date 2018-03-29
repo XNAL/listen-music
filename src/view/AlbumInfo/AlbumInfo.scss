@@ -1,0 +1,97 @@
+.album-info {
+  .album-info-box {
+    position: relative;
+    height: 224px;
+    z-index: 4;
+    background: rgba(0,0,0,.5);
+  }
+  .album-info-backImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(36px);
+  }
+  .album-info-section {
+    position: relative;
+    color: #fff;
+    z-index: 4;
+    background: rgba(0,0,0,.5);
+    border: none;
+    display: flex;
+    
+    display: flex;
+    width: 100%;
+    padding: 17px 16px 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    .album-info-cover {
+      position: relative;
+      width: 125px;
+      margin-right: 10px;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .album-info-name-author {
+      margin: auto 0;
+      .album-info-name {
+        max-height: 47px;
+        line-height: 1.3;
+        overflow: hidden;
+        font-size: 18px;
+      }
+      .album-info-author {
+        width: 100%;
+        display: flex;
+        margin-top: 8px;
+        .author-avatar {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+          border-radius: 100%;
+        }
+        .author-name {
+          flex: 1;
+          span {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 14px;
+            color: #fff;
+            line-height: 24px;
+          }
+        }
+      }
+      .album-info-time {
+        margin-top: 8px;
+      }
+    }
+  }
+  .opt-box {
+    display: flex;
+    position: relative;
+    height: 84px;
+    z-index: 4;
+    background: rgba(0,0,0,.5);
+    border: none;
+    .play-all-btn {
+      margin: auto;
+      display: inline-block;
+      width: 170px;
+      height: 40px;
+      line-height: 40px;
+      color: #fff;
+      text-align: center;
+      background: #2D8CF0;
+      border-radius: 20px;
+    }
+  }
+}
