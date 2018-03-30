@@ -60,7 +60,7 @@ export default {
   getAlbumInfo (albumId) {
     let data = Object.assign({}, JSONP_PARAMS, {
       g_tk: 33480508,
-      albummid: '003JxyaJ4KqeVM',
+      albummid: albumId,
       hostUin: 0,
       platform: "yqq",
       needNewCode: 0

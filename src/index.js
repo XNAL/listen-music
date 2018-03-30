@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker'
-import './styles/index.scss'
 import App from './App'
 import AlbumInfo from './view/AlbumInfo/AlbumInfo'
+import './styles/index.scss'
 
 ReactDOM.render((
   <Router>
