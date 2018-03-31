@@ -2,6 +2,8 @@
   .album-info-box {
     position: relative;
     overflow: hidden;
+    left: 0;
+    right: 0;
   }
   .album-info-backImg {
     position: absolute;
@@ -96,6 +98,7 @@
       text-align: center;
       background: #2D8CF0;
       border-radius: 20px;
+      cursor: pointer;
     }
   }
   .album-song-list-section {

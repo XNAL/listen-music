@@ -1,4 +1,5 @@
 import jsonp from 'jsonp'
+import fetch from 'axios'
 
 // params参数对象拼接到url上
 function formatUrl (url, params) {
@@ -14,8 +15,14 @@ function formatUrl (url, params) {
   }
 }
 
+export function fetchApi (url, params) {
+  return fetch(formatUrl(url, params), {
+    method: 'GET'
+  })
+}
+
 // 使用promise封装jsonp
-export default function (url, options, params) {
+export function fetchJsonp(url, options, params) {
   return new Promise((resolve, reject) => {
     jsonp(formatUrl(url, params), options, (err, data) => {
       if (err) {

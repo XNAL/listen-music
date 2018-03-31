@@ -1,4 +1,4 @@
-import fetchJsonp from './jsonp'
+import { fetchApi, fetchJsonp } from './fetch'
 import { JSONP_URL, JSONP_PARAMS, JSONP_OPTIONS } from './config'
 
 export default {
@@ -97,6 +97,28 @@ export default {
       data: JSON.stringify(playList)
     })
     return fetchJsonp(JSONP_URL.playList, {}, data);
+  },
+
+  getPlayInfo () {
+    let data = Object.assign({}, JSONP_PARAMS, {
+      format: 'json',
+      uin: 772528797,
+      platform: 'h5',
+      needNewCode: 1,
+      new_format: 1,
+      pic: 500,
+      disstid: 3802285513,
+      type: 1,
+      json: 1,
+      utf8: 1,
+      onlysong: 0,
+      picmid: 1,
+      nosign: 1,
+      song_begin: 0,
+      song_num: 15,
+      _: new Date().getTime()
+    })
+    return fetchApi('/proxyApi/getPlayInfo', data);
   }
 }
   

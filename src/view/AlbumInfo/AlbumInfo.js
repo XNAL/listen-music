@@ -69,7 +69,7 @@ export default class AlbumInfo extends Component {
               </section>
               <img className="album-info-backImg" src={`https://y.gtimg.cn/music/photo_new/T002R150x150M000${this.state.albumInfo.mid}.jpg?max_age=2592000)`} alt="专辑图片" />
               <div className="opt-box">
-                <a className="play-all-btn" href="javascript;;">播放全部</a>
+                <span className="play-all-btn">播放全部</span>
               </div>
             </section>
             <section className="album-song-list-section">
