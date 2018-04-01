@@ -99,7 +99,7 @@ export default {
     return fetchJsonp(JSONP_URL.playList, {}, data);
   },
 
-  getPlayInfo () {
+  getPlayListInfo (id, pageIndex = 0) {
     let data = Object.assign({}, JSONP_PARAMS, {
       format: 'json',
       uin: 772528797,
@@ -107,18 +107,18 @@ export default {
       needNewCode: 1,
       new_format: 1,
       pic: 500,
-      disstid: 3802285513,
+      disstid: id,
       type: 1,
       json: 1,
       utf8: 1,
       onlysong: 0,
       picmid: 1,
       nosign: 1,
-      song_begin: 0,
+      song_begin: pageIndex,
       song_num: 15,
       _: new Date().getTime()
     })
-    return fetchApi('/proxyApi/getPlayInfo', data);
+    return fetchApi('/proxyApi/getPlayListInfo', data);
   }
 }
   

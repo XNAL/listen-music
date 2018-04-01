@@ -5,7 +5,7 @@ const app = new Koa()
 
 const PORT = 8000
 
-app.use(route.get('/getPlayInfo', async ctx => {
+app.use(route.get('/getPlayListInfo', async ctx => {
   let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
   try {
     let res = await axios.get(url, {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './PlayList.scss'
 import fetch from '../../fetch/index'
 
@@ -26,15 +27,13 @@ export default class PlayList extends Component {
         <ul className="playlist-list">
           {this.state.playList.map(val => (
               <li className="playlist-item" key={val.content_id} >
-                <a className="playlist-link"
-                  href="" 
-                >
+                <Link to={`/PlayListInfo/${val.content_id}`} className="playlist-link">
                   <img className="playlist-img"
                     src={val.cover}
                     alt="歌单图片"
                   />
                   <p className="playlist-name">{val.title}</p>
-                </a>
+                </Link>
               </li>
             ))}
         </ul>
