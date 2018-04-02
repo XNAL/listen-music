@@ -1,0 +1,62 @@
+.rank-section {
+  padding: 10px;
+  .rank-list {
+    .rank-item {
+      margin-bottom: 10px;
+      display: flex;
+      overflow: hidden;
+      background: #fff;
+      .rank-jump {
+        flex: 0 0 auto;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .rank-item-info {
+        position: relative;
+        flex: 1;
+        margin: 0 10px 0 15px;
+        overflow: hidden;
+        &::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 8px;
+          height: 14px;
+          background-image: url(../../assets/jump.png);
+          background-size: 100% 100%;
+        }
+      }
+      .rank-item-title {
+        font-size: 16px;
+        color: #000;
+        font-weight: normal;
+        margin: 5px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .rank-item-song {
+        font-size: 14px;
+        color: rgba(0,0,0,.5);
+        line-height: 1.8;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .song-name {
+          margin: 0 5px 0 8px;
+          color: #000;
+        }
+        .singer-name {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}

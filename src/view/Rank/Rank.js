@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './Rank.scss'
 import fetch from '../../fetch/index'
 
@@ -13,13 +14,40 @@ export default class Rank extends Component {
   componentDidMount() {
     fetch.getRankList()
       .then(res => {
-        
+        this.setState({
+          rankList: res.data.topList
+        })
       })
   }
 
   render() {
     return (
-      <div>rank</div>
+      <section className="rank-section">
+        <ul className="rank-list">
+          {
+            this.state.rankList.map(val => (
+              <li className="rank-item" key={val.id}>
+                <Link to={`/RankInfo`} className="rank-jump">
+                  <img src={val.picUrl} alt="排行榜图片" />
+                </Link>
+                <div className="rank-item-info">
+                  <h3 className="rank-item-title">{val.topTitle}</h3>
+                  {
+                    val.songList.map((song, index) => (
+                      <p className="rank-item-song" key={index}>
+                        <span className="song-order">{index + 1}</span>
+                        <span className="song-name">{song.songname}</span>
+                        -
+                        <span className="singer-name">{song.singername}</span>
+                      </p>
+                    ))
+                  }
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
     )
   }
 }
