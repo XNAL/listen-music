@@ -6,7 +6,9 @@ export const JSONP_URL = {
   // 专辑信息
 	albumInfo: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_album_info_cp.fcg',
   // 推荐歌单
-  playList: 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+  playList: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+  // 排行榜
+  rankList: 'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg'
 }
 
 export const JSONP_PARAMS = {

@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import './NavBar.scss'
 
 export default class NavBar extends Component {
   render() {
     return (
       <ul className="nav-bar-list">
-        <li className="nav-bar-item active">推荐</li>
-        <li className="nav-bar-item">歌手</li>
-        <li className="nav-bar-item">排行榜</li>
+        <li className="nav-bar-item">
+          <NavLink exact to="/" activeClassName="active">推荐</NavLink>
+        </li>
+        <li className="nav-bar-item">
+          <NavLink to="/Singer" activeClassName="active">歌手</NavLink>
+        </li>
+        <li className="nav-bar-item">
+          <NavLink to="/Rank" activeClassName="active">排行榜</NavLink>
+        </li>
       </ul>
     )
   }

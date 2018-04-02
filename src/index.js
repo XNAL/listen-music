@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
+import Recommend from './view/Recommend/Recommend'
 import AlbumInfo from './view/AlbumInfo/AlbumInfo'
 import PlayListInfo from './view/PlayListInfo/PlayListInfo'
+import Rank from './view/Rank/Rank'
 import './styles/index.scss'
 
 ReactDOM.render((
   <Router>
     <div className="router-wrap">
-      <Route exact path="/" component={App} />
+      <App />
+      <Route exact path="/" component={Recommend} />
       <Route path="/AlbumInfo/:mid" component={AlbumInfo} />
       <Route path="/PlayListInfo/:id" component={PlayListInfo} />
+      <Route path="/Rank" component={Rank} />
     </div>
   </Router>
 ), document.getElementById('root'))

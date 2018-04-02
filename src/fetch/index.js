@@ -98,9 +98,13 @@ export default {
     })
     return fetchJsonp(JSONP_URL.playList, {}, data);
   },
-
+  /**
+   * @method 获取歌单详情
+   * @type jsonp
+   * @return json
+   */
   getPlayListInfo (id, pageIndex = 0) {
-    let data = Object.assign({}, JSONP_PARAMS, {
+    let params = Object.assign({}, JSONP_PARAMS, {
       format: 'json',
       uin: 772528797,
       platform: 'h5',
@@ -118,7 +122,24 @@ export default {
       song_num: 15,
       _: new Date().getTime()
     })
-    return fetchApi('/proxyApi/getPlayListInfo', data);
+    return fetchApi('/proxyApi/getPlayListInfo', params)
+  },
+  /**
+   * @method 获取排行榜
+   * @type jsonp
+   * @return json
+   */
+  getRankList () {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      // format: 'json',
+      g_tk: 5381,
+      uin: 0,
+      notice: 0,
+      platform: 'h5',
+      needNewCode: 1,
+      _: new Date().getTime()
+    })
+    return fetchJsonp(JSONP_URL.rankList, JSONP_OPTIONS, params)
   }
 }
   
