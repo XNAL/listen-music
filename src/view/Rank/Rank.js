@@ -27,22 +27,24 @@ export default class Rank extends Component {
           {
             this.state.rankList.map(val => (
               <li className="rank-item" key={val.id}>
-                <Link to={`/RankInfo`} className="rank-jump">
-                  <img src={val.picUrl} alt="排行榜图片" />
+                <Link to={`/RankInfo/${val.id}`} className="rank-jump">
+                  <div className="rank-img">
+                    <img src={val.picUrl} alt="排行榜图片" />
+                  </div>
+                  <div className="rank-item-info">
+                    <h3 className="rank-item-title">{val.topTitle}</h3>
+                    {
+                      val.songList.map((song, index) => (
+                        <p className="rank-item-song" key={index}>
+                          <span className="song-order">{index + 1}</span>
+                          <span className="song-name">{song.songname}</span>
+                          -
+                          <span className="singer-name">{song.singername}</span>
+                        </p>
+                      ))
+                    }
+                  </div>
                 </Link>
-                <div className="rank-item-info">
-                  <h3 className="rank-item-title">{val.topTitle}</h3>
-                  {
-                    val.songList.map((song, index) => (
-                      <p className="rank-item-song" key={index}>
-                        <span className="song-order">{index + 1}</span>
-                        <span className="song-name">{song.songname}</span>
-                        -
-                        <span className="singer-name">{song.singername}</span>
-                      </p>
-                    ))
-                  }
-                </div>
               </li>
             ))
           }

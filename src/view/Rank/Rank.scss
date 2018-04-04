@@ -3,10 +3,12 @@
   .rank-list {
     .rank-item {
       margin-bottom: 10px;
-      display: flex;
       overflow: hidden;
       background: #fff;
       .rank-jump {
+        display: flex;
+      }
+      .rank-img {
         flex: 0 0 auto;
         display: inline-block;
         width: 100px;

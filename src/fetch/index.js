@@ -131,7 +131,6 @@ export default {
    */
   getRankList () {
     let params = Object.assign({}, JSONP_PARAMS, {
-      // format: 'json',
       g_tk: 5381,
       uin: 0,
       notice: 0,
@@ -140,6 +139,26 @@ export default {
       _: new Date().getTime()
     })
     return fetchJsonp(JSONP_URL.rankList, JSONP_OPTIONS, params)
+  },
+  /**
+   * @method 排行榜详情
+   * @type jsonp
+   * @return json
+   */
+  getRankInfo (id) {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 958374854,
+      uin: 0,
+      notice: 0,
+      platform: 'h5',
+      needNewCode: 1,
+      tpl: 3,
+      page: 'detail',
+      type: 'top',
+      topid: id,
+      _: new Date().getTime()
+    })
+    return fetchJsonp(JSONP_URL.rankInfo, JSONP_OPTIONS, params)
   }
 }
   
