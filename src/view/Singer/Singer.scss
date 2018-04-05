@@ -1,0 +1,42 @@
+.singer-section {
+  .singer-list {
+    overflow: hidden;
+    .singer-item {
+      .singer-jump {
+        overflow: hidden;
+        display: flex;
+      }
+      .singer-img {
+        margin: 8px 10px;
+        width: 48px;
+        height: 48px;
+        border-radius: 100%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .singer-name {
+        position: relative;
+        flex: 1;
+        align-items: center;
+        display: flex;
+        box-sizing: border-box;
+        border-bottom: 1px solid #e9e9e9;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 8px;
+          height: 14px;
+          background-image: url(../../assets/jump.png);
+          background-size: 100% 100%;
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ export default class AlbumInfo extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll)
     
     let mid = this.props.match.params.mid
     fetch.getAlbumInfo(mid)
@@ -24,7 +24,7 @@ export default class AlbumInfo extends Component {
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll)
   }
 
   handleScroll (event) {

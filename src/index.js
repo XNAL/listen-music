@@ -8,6 +8,7 @@ import AlbumInfo from './view/AlbumInfo/AlbumInfo'
 import PlayListInfo from './view/PlayListInfo/PlayListInfo'
 import Rank from './view/Rank/Rank'
 import RankInfo from './view/RankInfo/RankInfo'
+import Singer from './view/Singer/Singer'
 import './styles/index.scss'
 
 ReactDOM.render((
@@ -17,6 +18,7 @@ ReactDOM.render((
       <Route exact path="/" component={Recommend} />
       <Route path="/AlbumInfo/:mid" component={AlbumInfo} />
       <Route path="/PlayListInfo/:id" component={PlayListInfo} />
+      <Route path="/Singer" component={Singer} />
       <Route path="/Rank" component={Rank} />
       <Route path="/RankInfo/:id" component={RankInfo} />
     </div>

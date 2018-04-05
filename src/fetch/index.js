@@ -159,6 +159,32 @@ export default {
       _: new Date().getTime()
     })
     return fetchJsonp(JSONP_URL.rankInfo, JSONP_OPTIONS, params)
-  }
+  },
+  /**
+   * @method 获取歌手列表
+   * @type jsonp
+   * @return json
+   */
+  getSingerList (pageNum, key) {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 958374854,
+      uin: 0,
+      notice: 0,
+      loginUin: 0,
+      hostUin: 0,
+      platform: "yqq",
+      needNewCode: 0,
+      channel: "singer",
+      page: "list",
+      key: key,
+      pagenum: pageNum,
+      pagesize: 100
+    })
+    let option = {
+      param: "jsonpCallback",
+      prefix: "GetSingerListCallback"
+    }
+    return fetchJsonp(JSONP_URL.singerList, option, params)
+  },
 }
   
