@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Singer.scss'
 import fetch from '../../fetch/index'
+import SingerCategory from '../../components/SingerCategory/SingerCategory'
 
 export default class Singer extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class Singer extends Component {
       pageNum: 1,
       isEnd: false,
       key: 'all_all_all',
-      viewPortHeight: document.documentElement.clientHeight
+      viewPortHeight: document.documentElement.clientHeight,
+      categoryList: []
     }
     this.handleScroll = this.handleScroll.bind(this)
   }
@@ -29,8 +31,6 @@ export default class Singer extends Component {
   handleScroll (event) {
     let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
     let listHeight = this.refs.infoBoxRef.clientHeight
-    // console.log(this.refs.infoBoxRef.clientHeight, scrollTop)
-    console.log(listHeight, scrollTop, (listHeight - this.state.viewPortHeight - scrollTop), !this.state.isEnd, !this.state.isLoading)
     if ((listHeight - this.state.viewPortHeight - scrollTop <= 100) && !this.state.isEnd && !this.state.isLoading) {
       let pageNum = this.state.pageNum
       pageNum ++
@@ -57,10 +57,16 @@ export default class Singer extends Component {
         })
       })
   }
+  
+  changeCategory (category) {
+    
+  }
 
   render() {
     return (
       <section className="singer-section">
+        <SingerCategory categoryList = {this.state.categoryList}
+          callbackParent={this.changeCategory}/>
         <ul className="singer-list" ref="infoBoxRef">
           {
             this.state.singerList.map(val => (

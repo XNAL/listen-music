@@ -1,0 +1,19 @@
+.singer-category {
+  overflow-x: scroll;
+  width: 100%;
+  .category-list {
+    margin: 10px 0;
+    display: flex;
+    .category-item {
+      flex: 0 0 auto;
+      padding: 0 20px;
+      line-height: 28px;
+      border-radius: 2px;
+
+      &.active {
+        background: #2D8CF0;
+        color: #fff;
+      }
+    }
+  }
+}
