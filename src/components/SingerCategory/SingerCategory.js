@@ -5,7 +5,7 @@ export default class SingerCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      active: 'all',
+      active: this.props.categoryList ? this.props.categoryList[0].key : '',
       list: this.props.categoryList || []
     }
     this.changeCategory = this.changeCategory.bind(this)
