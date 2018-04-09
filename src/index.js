@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
+import MiniPlay from './components/Play/MiniPlay'
 import Recommend from './view/Recommend/Recommend'
 import AlbumInfo from './view/AlbumInfo/AlbumInfo'
 import PlayListInfo from './view/PlayListInfo/PlayListInfo'
@@ -21,6 +22,7 @@ ReactDOM.render((
       <Route path="/Singer" component={Singer} />
       <Route path="/Rank" component={Rank} />
       <Route path="/RankInfo/:id" component={RankInfo} />
+      <MiniPlay />
     </div>
   </Router>
 ), document.getElementById('root'))
