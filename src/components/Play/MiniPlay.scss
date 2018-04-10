@@ -23,6 +23,19 @@
         width: 100%;
         height: 100%;
       }
+
+      &.imgRotate {
+        animation: rotate 15s infinite linear;
+      }
+      @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+      }
     }
     .song-name-lyrics {
       flex: 1;
@@ -67,6 +80,5 @@
     bottom: 0;
     height: 1px;
     background: #2D8CF0;
-    width: 80%;
   }
 }
