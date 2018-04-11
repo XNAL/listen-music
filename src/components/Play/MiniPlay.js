@@ -2,27 +2,17 @@ import React, { Component } from 'react'
 import './MiniPlay.scss'
 import musicImg from '../../assets/music_default.png'
 
-// let timer = null
 export default class MiniPlay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      song: {
-        name: '朵',
-        lyrics: '赵雷',
-        albumpic: 'https://y.gtimg.cn/music/photo_new/T002R300x300M000000jE4g74VS43p.jpg?max_age=2592000',
-        progress: 0,
-        playStatus: 0,
-        duration: 0
-      },
+      song: this.props.song ? this.props.song : {},
       timer: null
     }
     this.playMusic = this.playMusic.bind(this)
   }
 
   componentDidMount() {
-    // this.refs.musicAudio.src = 'http://dl.stream.qqmusic.qq.com/C400004IArbh3ytHgR.m4a?vkey=F63222D66A17AC59199F8B30222F8724DAE044138223762AD34C1DF94D60AA355D3C2380381B57790EA28E1F3F3BBC31A1493C4E33B699E7&guid=3030549298&uin=772528797&fromtag=66'
-    this.refs.musicAudio.src = 'http://dl.stream.qqmusic.qq.com/C400004IArbh3ytHgR.m4a?vkey=F63222D66A17AC59199F8B30222F8724DAE044138223762AD34C1DF94D60AA355D3C2380381B57790EA28E1F3F3BBC31A1493C4E33B699E7&guid=3030549298&uin=772528797&fromtag=66'
     this.refs.musicAudio.load()
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () =>
@@ -88,7 +78,7 @@ export default class MiniPlay extends Component {
   render() {
     return (
       <div className="miniplay-component">
-        <audio ref="musicAudio" src="" />
+        <audio ref="musicAudio" src={this.state.song.url} />
         <div className="song-info">
           <div className={'song-img ' + (this.state.song.playStatus === 1 ? 'imgRotate' : '')}>
             <img src={this.state.song.albumpic ? this.state.song.albumpic : musicImg} alt="" />

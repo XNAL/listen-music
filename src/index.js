@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
-import MiniPlay from './components/Play/MiniPlay'
+// import MiniPlay from './components/Play/MiniPlay'
+import MiniPlay from './container/MiniPlay'
 import Recommend from './view/Recommend/Recommend'
 import AlbumInfo from './view/AlbumInfo/AlbumInfo'
 import PlayListInfo from './view/PlayListInfo/PlayListInfo'
@@ -12,7 +13,11 @@ import RankInfo from './view/RankInfo/RankInfo'
 import Singer from './view/Singer/Singer'
 import './styles/index.scss'
 
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
 ReactDOM.render((
+<Provider store={store}>
   <Router>
     <div className="router-wrap">
       <App />
@@ -25,5 +30,6 @@ ReactDOM.render((
       <MiniPlay />
     </div>
   </Router>
+</Provider>
 ), document.getElementById('root'))
 registerServiceWorker()
