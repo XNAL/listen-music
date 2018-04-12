@@ -6,8 +6,9 @@ export default class MiniPlay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      song: this.props.song ? this.props.song : {},
-      timer: null
+      timer: null,
+      playStatus: 0,
+      totalDuration: 0
     }
     this.playMusic = this.playMusic.bind(this)
   }
@@ -17,44 +18,35 @@ export default class MiniPlay extends Component {
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () =>
       this.setState({
-        song: Object.assign({}, this.state.song, {
-          duration: this.musicAllTime()
-        })
+        totalDuration: this.musicAllTime()
       })
     )
   }
 
   playMusic() {
-    if (this.state.song.playStatus === 0) {
+    if (this.state.playStatus === 0) {
       this.refs.musicAudio.play()
-      this.setMusicProgress()
+      this.setMusicPlayDuration()
       this.setState({
-        song: Object.assign({}, this.state.song, {
-          playStatus: 1
-        })
+        playStatus: 1
       })
     } else {
       this.refs.musicAudio.pause()
-      this.setMusicProgress()
+      this.setMusicPlayDuration()
       this.setState({
-        song: Object.assign({}, this.state.song, {
-          playStatus: 0
-        })
+        playStatus: 0
       })
     }
   }
 
-  setMusicProgress() {
-    if (this.state.song.playStatus === 0) {
+  setMusicPlayDuration() {
+    if (this.state.playStatus === 0) {
         // 设定定时器，根据播放时间调整播放进度
         let timer = setInterval(() => {
-            let allTime = this.state.song.duration
             let currentTime = this.musicCurrentTime()
-            this.setState({
-              song: Object.assign({}, this.state.song, {
-                progress: Math.floor(currentTime / allTime * 100)
-              })
-            })
+            this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+              currentDuration: currentTime
+            }))
         }, 2000)
         this.setState({
           timer: timer
@@ -75,27 +67,36 @@ export default class MiniPlay extends Component {
     return (this.refs.musicAudio.currentTime + 2) || 0
   }
 
+  setMusicProgress(duration) {
+    if (this.state.totalDuration === 0) {
+      return 0
+    } else {
+      return Math.floor(duration / this.state.totalDuration * 100)
+    }
+  }
+
   render() {
+    let currentSong = this.props.currentSong
     return (
       <div className="miniplay-component">
-        <audio ref="musicAudio" src={this.state.song.url} />
+        <audio ref="musicAudio" src={currentSong.url} />
         <div className="song-info">
-          <div className={'song-img ' + (this.state.song.playStatus === 1 ? 'imgRotate' : '')}>
-            <img src={this.state.song.albumpic ? this.state.song.albumpic : musicImg} alt="" />
+          <div className={'song-img ' + (this.state.playStatus === 1 ? 'imgRotate' : '')}>
+            <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
           </div>
           <div className="song-name-lyrics">
-            <div className="song-name">{this.state.song.name}</div>
-            <div className="song-lyrics">{this.state.song.lyrics}</div>
+            <div className="song-name">{currentSong.name}</div>
+            <div className="song-lyrics">{currentSong.lyrics}</div>
           </div>
         </div>
         <div className="operate-group">
           <div className="play-control">
             {
-              this.state.song && this.state.song.playStatus === 1 &&
+              this.state.playStatus === 1 &&
               <i className="iconfont icon-stop" onClick={this.playMusic} />
             }
             {
-              this.state.song && this.state.song.playStatus === 0 &&
+              this.state.playStatus === 0 &&
               <i className="iconfont icon-play" onClick={this.playMusic} />
             }
           </div>
@@ -103,7 +104,7 @@ export default class MiniPlay extends Component {
             <i className="iconfont icon-list" />
           </div>
         </div>
-        <div className="song-progress" style={{width: `${this.state.song.progress}%`}}/>
+        <div className="song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>
       </div>  
     )
   }

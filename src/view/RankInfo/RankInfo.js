@@ -9,6 +9,7 @@ export default class RankInfo extends Component {
       rankInfo: null
     }
     this.handleScroll = this.handleScroll.bind(this)
+    this.playSong = this.playSong.bind(this)
   }
 
   componentDidMount() {
@@ -47,6 +48,10 @@ export default class RankInfo extends Component {
     return formatSingers.join(' / ')
   }
 
+  playSong(songInfo) {
+    console.log('songInfo', songInfo)
+    this.props.playSong(songInfo)
+  }
   render() {
     const isExistData = this.state.rankInfo !== null
     if (isExistData) {
@@ -77,7 +82,7 @@ export default class RankInfo extends Component {
               <ul className="rank-song-list">
                 {
                   this.state.rankInfo.songlist.map((val, index) => (
-                    <li className="rank-song-item" key={val.data.songid}>
+                    <li className="rank-song-item" key={val.data.songid} onClick={() => this.playSong(val.data)}>
                       <div className="rank-song-order">{index + 1}</div>
                       <div className="rank-song-info">
                         <h3 className="rank-song-name txt-nowrap">{val.data.songname}</h3>
@@ -86,7 +91,6 @@ export default class RankInfo extends Component {
                     </li>
                   ))
                 }
-                
               </ul>
             </section>
             {
