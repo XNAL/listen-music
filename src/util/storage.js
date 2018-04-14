@@ -4,7 +4,6 @@ export default {
   },
   getCurrentSong () {
     let song = window.localStorage.getItem('LM_SONG')
-    console.log('get', song)
     return song ? JSON.parse(song) : {}
   }
 }

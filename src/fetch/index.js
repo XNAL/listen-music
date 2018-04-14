@@ -186,5 +186,29 @@ export default {
     }
     return fetchJsonp(JSONP_URL.singerList, option, params)
   },
+  /**
+  * @method 获取歌曲vkey
+  * @type jsonp
+  * @return json
+  */
+ getSongVkey (mid) {
+   let params = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 1722049047,
+      loginUin: 772528797,
+      hostUin: 0,
+      platform: 'yqq',
+      needNewCode: 0,
+      cid: 205361747,
+      uin: 772528797,
+      songmid: mid,
+      filename: `C400${mid}.m4a`,
+      guid: 3030549298,
+   })
+   let option = {
+     param: "callback",
+     prefix: "callback"
+   }
+   return fetchJsonp(JSONP_URL.songVkey, option, params)
+ },
 }
   

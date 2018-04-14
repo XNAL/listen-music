@@ -12,7 +12,9 @@ export const JSONP_URL = {
   // 榜单详情
   rankInfo: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg',
   // 歌手列表
-  singerList: 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
+  singerList: 'https://c.y.qq.com/v8/fcg-bin/v8.fcg',
+  // 获取歌曲Vkey
+  songVkey: 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
 }
 
 export const JSONP_PARAMS = {

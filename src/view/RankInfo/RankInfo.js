@@ -18,7 +18,6 @@ export default class RankInfo extends Component {
     let id = this.props.match.params.id
     fetch.getRankInfo(id)
       .then(res => {
-        console.log(res)
         this.setState({
           rankInfo: res
         })
@@ -49,8 +48,17 @@ export default class RankInfo extends Component {
   }
 
   playSong(songInfo) {
-    console.log('songInfo', songInfo)
-    this.props.playSong(songInfo)
+    fetch.getSongVkey(songInfo.songmid)
+      .then(res => {
+        let url = `http://dl.stream.qqmusic.qq.com/C400${songInfo.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+        this.props.playSong(Object.assign({}, {
+          url,
+          name: songInfo.songname,
+          albumpic: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${songInfo.albummid}.jpg?max_age=2592000`,
+          currentDuration: 0,
+          lyrics: this.handleSinger(songInfo.singer)
+        }))
+      })
   }
   render() {
     const isExistData = this.state.rankInfo !== null

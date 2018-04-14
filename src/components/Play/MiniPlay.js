@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './MiniPlay.scss'
 import musicImg from '../../assets/music_default.png'
+import fetch from '../../fetch/index'
 
 export default class MiniPlay extends Component {
   constructor(props) {
