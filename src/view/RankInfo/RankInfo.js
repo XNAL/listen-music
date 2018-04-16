@@ -17,9 +17,22 @@ export default class RankInfo extends Component {
     
     let id = this.props.match.params.id
     fetch.getRankInfo(id)
-      .then(res => {
+      .then(async res => {
+        let rankInfo = res
+        let datas = await Promise.all(
+          rankInfo.songlist.map(async (song) => {
+            let vkeyData = await fetch.getSongVkey(song.data.songmid)
+            let url = `http://dl.stream.qqmusic.qq.com/C400${song.data.songmid}.m4a?vkey=${vkeyData.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+            let albumpic = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.data.albummid}.jpg?max_age=2592000`
+            return Object.assign({}, song, {
+              url,
+              albumpic
+            })
+          })
+        )
+        rankInfo.songlist = datas
         this.setState({
-          rankInfo: res
+          rankInfo: rankInfo
         })
       })
   }
@@ -48,17 +61,13 @@ export default class RankInfo extends Component {
   }
 
   playSong(songInfo) {
-    fetch.getSongVkey(songInfo.songmid)
-      .then(res => {
-        let url = `http://dl.stream.qqmusic.qq.com/C400${songInfo.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
-        this.props.playSong(Object.assign({}, {
-          url,
-          name: songInfo.songname,
-          albumpic: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${songInfo.albummid}.jpg?max_age=2592000`,
-          currentDuration: 0,
-          lyrics: this.handleSinger(songInfo.singer)
-        }))
-      })
+    this.props.playSong(Object.assign({}, {
+      url: songInfo.url,
+      albumpic: songInfo.albumpic,
+      name: songInfo.data.songname,
+      currentDuration: 0,
+      lyrics: this.handleSinger(songInfo.data.singer)
+    }))
   }
   render() {
     const isExistData = this.state.rankInfo !== null
@@ -90,7 +99,7 @@ export default class RankInfo extends Component {
               <ul className="rank-song-list">
                 {
                   this.state.rankInfo.songlist.map((val, index) => (
-                    <li className="rank-song-item" key={val.data.songid} onClick={() => this.playSong(val.data)}>
+                    <li className="rank-song-item" key={val.data.songid} onClick={() => this.playSong(val)}>
                       <div className="rank-song-order">{index + 1}</div>
                       <div className="rank-song-info">
                         <h3 className="rank-song-name txt-nowrap">{val.data.songname}</h3>

@@ -22,6 +22,11 @@ export default class MiniPlay extends Component {
         totalDuration: this.musicAllTime()
       })
     )
+    this.refs.musicAudio.addEventListener("ended", () =>
+      this.setState({
+        playStatus: 0
+      })
+    )
   }
 
   playMusic() {
