@@ -8,7 +8,7 @@ export default class MiniPlay extends Component {
     super(props)
     this.state = {
       timer: null,
-      playStatus: 0,
+      // playStatus: 0,
       totalDuration: 0
     }
     this.playMusic = this.playMusic.bind(this)
@@ -17,49 +17,53 @@ export default class MiniPlay extends Component {
   componentDidMount() {
     this.refs.musicAudio.load()
     // 添加事件监听，当准备好音频时再获取时长
-    this.refs.musicAudio.addEventListener("canplay", () =>
-      this.setState({
-        totalDuration: this.musicAllTime()
-      })
-    )
-    this.refs.musicAudio.addEventListener("ended", () =>
-      this.setState({
-        playStatus: 0
-      })
-    )
+    this.refs.musicAudio.addEventListener("canplay", () => {
+      if (this.props.playStatus == 1) {
+        this.refs.musicAudio.play()
+        this.setMusicPlayDuration()
+        this.setState({
+          totalDuration: this.musicAllTime()
+        })
+      } else {
+        this.setState({
+          totalDuration: this.musicAllTime()
+        })
+      }
+    })
+    this.refs.musicAudio.addEventListener("ended", () => {
+      this.refs.musicAudio.pause()
+      this.setMusicPlayDuration()
+      this.props.changePlayStatus(0)
+    })
   }
 
   playMusic() {
-    if (this.state.playStatus === 0) {
+    if (this.props.playStatus == 0) {
       this.refs.musicAudio.play()
       this.setMusicPlayDuration()
-      this.setState({
-        playStatus: 1
-      })
+      this.props.changePlayStatus(1)
     } else {
       this.refs.musicAudio.pause()
       this.setMusicPlayDuration()
-      this.setState({
-        playStatus: 0
-      })
+      this.props.changePlayStatus(0)
     }
   }
 
   setMusicPlayDuration() {
-    if (this.state.playStatus === 0) {
-        // 设定定时器，根据播放时间调整播放进度
-        let timer = setInterval(() => {
-            let currentTime = this.musicCurrentTime()
-            this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
-              currentDuration: currentTime
-            }))
-        }, 2000)
-        this.setState({
-          timer: timer
-        })
+    if (this.props.playStatus == 1) {
+      // 设定定时器，根据播放时间调整播放进度
+      let timer = setInterval(() => {
+          let currentTime = this.musicCurrentTime()
+          this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+            currentDuration: currentTime
+          }))
+      }, 2000)
+      this.setState({
+        timer: timer
+      })
     } else {
-        // 暂停时清除定时器
-        clearInterval(this.state.timer)
+      // 暂停时清除定时器
+      clearInterval(this.state.timer)
     }
   }
 
@@ -83,11 +87,12 @@ export default class MiniPlay extends Component {
 
   render() {
     let currentSong = this.props.currentSong
+    let playStatus = this.props.playStatus
     return (
       <div className="miniplay-component">
         <audio ref="musicAudio" src={currentSong.url} />
         <div className="song-info">
-          <div className={'song-img ' + (this.state.playStatus === 1 ? 'imgRotate' : '')}>
+          <div className={'song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
             <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
           </div>
           <div className="song-name-lyrics">
@@ -98,11 +103,11 @@ export default class MiniPlay extends Component {
         <div className="operate-group">
           <div className="play-control">
             {
-              this.state.playStatus === 1 &&
+              playStatus == 1 &&
               <i className="iconfont icon-stop" onClick={this.playMusic} />
             }
             {
-              this.state.playStatus === 0 &&
+              playStatus == 0 &&
               <i className="iconfont icon-play" onClick={this.playMusic} />
             }
           </div>

@@ -68,6 +68,7 @@ export default class RankInfo extends Component {
       currentDuration: 0,
       lyrics: this.handleSinger(songInfo.data.singer)
     }))
+    this.props.setPlayStatus(1)
   }
   render() {
     const isExistData = this.state.rankInfo !== null
