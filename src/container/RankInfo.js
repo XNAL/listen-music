@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setCurrentSong, setPlayStatus } from '../redux/actions'
+import { setCurrentSong, setPlayStatus, setSongList } from '../redux/actions'
 import RankInfo from "../view/RankInfo/RankInfo"
 
 // 映射Redux全局的state到组件的props上
@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setPlayStatus: (status) => {
     dispatch(setPlayStatus(status))
+  },
+  setSongList: (songList) => {
+    dispatch(setSongList(songList))
   }
 })
 

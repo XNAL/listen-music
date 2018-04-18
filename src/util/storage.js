@@ -12,5 +12,12 @@ export default {
   getPlayDsatus () {
     let status = window.sessionStorage.getItem('LM_PLAY_STATUS')
     return status || 0
-  }
+  },
+  setSongList (songList) {
+    window.localStorage.setItem('LM_SONG_LIST', JSON.stringify(songList))
+  },
+  getSongList () {
+    let songList = window.localStorage.getItem('LM_SONG_LIST')
+    return songList ? JSON.parse(songList) : []
+  },
 }

@@ -10,6 +10,7 @@ export default class RankInfo extends Component {
     }
     this.handleScroll = this.handleScroll.bind(this)
     this.playSong = this.playSong.bind(this)
+    this.playAllSong = this.playAllSong.bind(this)
   }
 
   componentDidMount() {
@@ -60,8 +61,9 @@ export default class RankInfo extends Component {
     return formatSingers.join(' / ')
   }
 
-  playSong(songInfo) {
+  playSong(songInfo, index) {
     this.props.playSong(Object.assign({}, {
+      index,
       url: songInfo.url,
       albumpic: songInfo.albumpic,
       name: songInfo.data.songname,
@@ -70,6 +72,27 @@ export default class RankInfo extends Component {
     }))
     this.props.setPlayStatus(1)
   }
+
+  playAllSong() {
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.rankInfo.songlist)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.data.songname,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.data.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
+
+    this.props.playSong(songList[0])
+    this.props.setPlayStatus(1)
+
+  }
+
   render() {
     const isExistData = this.state.rankInfo !== null
     if (isExistData) {
@@ -92,7 +115,7 @@ export default class RankInfo extends Component {
               </section>
               <img className="rank-info-backImg" src={`https://y.gtimg.cn/music/photo_new/T002R150x150M000${this.state.rankInfo.songlist[0].data.albummid}.jpg?max_age=2592000)`} alt="专辑图片" />
               <div className="opt-box">
-                <span className="play-all-btn">播放全部</span>
+                <span className="play-all-btn" onClick={this.playAllSong}>播放全部</span>
               </div>
             </section>
             <section className="rank-song-list-section">
@@ -100,7 +123,7 @@ export default class RankInfo extends Component {
               <ul className="rank-song-list">
                 {
                   this.state.rankInfo.songlist.map((val, index) => (
-                    <li className="rank-song-item" key={val.data.songid} onClick={() => this.playSong(val)}>
+                    <li className="rank-song-item" key={val.data.songid} onClick={() => this.playSong(val, index)}>
                       <div className="rank-song-order">{index + 1}</div>
                       <div className="rank-song-info">
                         <h3 className="rank-song-name txt-nowrap">{val.data.songname}</h3>
