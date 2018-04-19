@@ -5,7 +5,8 @@ import MiniPlay from '../components/Play/MiniPlay'
 // 映射Redux全局的state到组件的props上
 const mapStateToProps = (state) => ({
   currentSong: state.song,
-  playStatus: state.playStatus
+  playStatus: state.playStatus,
+  songList: state.songList
 })
 
 // 映射dispatch到props上
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changePlayStatus: (status) => {
     dispatch(setPlayStatus(status))
+  },
+  playNextSong: (song) => {
+    dispatch(setCurrentSong(song))
   }
 })
 

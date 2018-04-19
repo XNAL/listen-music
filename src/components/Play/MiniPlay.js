@@ -31,9 +31,13 @@ export default class MiniPlay extends Component {
       }
     })
     this.refs.musicAudio.addEventListener("ended", () => {
-      this.refs.musicAudio.pause()
-      this.setMusicPlayDuration()
-      this.props.changePlayStatus(0)
+      let index = this.props.currentSong.index
+      if (index >= this.props.songList.length - 1) {
+        index = 0
+      } else {
+        index ++
+      }
+      this.props.playNextSong(this.props.songList[index])
     })
   }
 
