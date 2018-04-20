@@ -57,10 +57,10 @@ export default class MiniPlay extends Component {
     if (this.props.playStatus == 1) {
       // 设定定时器，根据播放时间调整播放进度
       let timer = setInterval(() => {
-          let currentTime = this.musicCurrentTime()
-          this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
-            currentDuration: currentTime
-          }))
+        let currentTime = this.musicCurrentTime()
+        this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+          currentDuration: currentTime
+        }))
       }, 2000)
       this.setState({
         timer: timer

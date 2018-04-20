@@ -71,6 +71,20 @@ export default class RankInfo extends Component {
       lyrics: this.handleSinger(songInfo.data.singer)
     }))
     this.props.setPlayStatus(1)
+    
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.rankInfo.songlist)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.data.songname,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.data.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
   }
 
   playAllSong() {

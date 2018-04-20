@@ -13,6 +13,8 @@ export default class PlayListInfo extends Component {
     }
     this.handleScroll = this.handleScroll.bind(this)
     this.loadMore = this.loadMore.bind(this)
+    this.playSong = this.playSong.bind(this)
+    this.playAllSong = this.playAllSong.bind(this)
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ export default class PlayListInfo extends Component {
 
   loadMore () {
     fetch.getPlayListInfo(this.state.id, this.state.pageIndex)
-      .then(res => {
+      .then(async res => {
         let cdlist = res.data.data.cdlist[0]
         let songList = []
         let isNoMore = false
@@ -41,6 +43,18 @@ export default class PlayListInfo extends Component {
         if (songList.length + cdlist.songlist.length === cdlist.total_song_num) {
           isNoMore = true
         }
+        let datas = await Promise.all(
+          cdlist.songlist.map(async (song) => {
+            let vkeyData = await fetch.getSongVkey(song.mid)
+            let url = `http://dl.stream.qqmusic.qq.com/C400${song.mid}.m4a?vkey=${vkeyData.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+            let albumpic = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.album.mid}.jpg?max_age=2592000`
+            return Object.assign({}, song, {
+              url,
+              albumpic
+            })
+          })
+        )
+        cdlist.songlist = datas
         cdlist.songlist.unshift(...songList)
         this.setState({
           playListInfo: cdlist,
@@ -77,6 +91,51 @@ export default class PlayListInfo extends Component {
     }
   }
 
+  playSong(songInfo, index) {
+    this.props.playSong(Object.assign({}, {
+      index,
+      url: songInfo.url,
+      albumpic: songInfo.albumpic,
+      name: songInfo.title,
+      currentDuration: 0,
+      lyrics: this.handleSinger(songInfo.singer)
+    }))
+    this.props.setPlayStatus(1)
+    
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.playListInfo.songlist)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.title,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
+  }
+
+  playAllSong() {
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.playListInfo.songlist)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.title,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
+
+    this.props.playSong(songList[0])
+    this.props.setPlayStatus(1)
+  }
+
   render() {
     const isExistData = this.state.playListInfo !== null
     if (isExistData) {
@@ -100,7 +159,7 @@ export default class PlayListInfo extends Component {
               </section>
               <img className="playList-info-backImg" src={`https://y.gtimg.cn/music/photo_new/T006R300x300M000${this.state.playListInfo.pic_mid}.jpg?max_age=2592000)`} alt="专辑图片" />
               <div className="opt-box">
-                <span className="play-all-btn">播放全部</span>
+                <span className="play-all-btn" onClick={this.playAllSong}>播放全部</span>
               </div>
             </section>
             <section className="playList-song-list-section">
@@ -108,7 +167,7 @@ export default class PlayListInfo extends Component {
               <ul className="playList-song-list">
                 {
                   this.state.playListInfo.songlist.map((val, index) => (
-                    <li className="playList-song-item" key={val.id}>
+                    <li className="playList-song-item" key={val.id} onClick={() => this.playSong(val, index)}>
                       <div className="playList-song-info">
                         <h3 className="playList-song-name txt-nowrap">{val.title}</h3>
                         <p className="playList-song-singer txt-nowrap">{this.handleSinger(val.singer)} · {val.album.name}</p>

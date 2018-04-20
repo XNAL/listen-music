@@ -12,6 +12,8 @@
     flex: 1;
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
     .song-img {
       flex: 0 0 auto;
       margin: 0 10px;

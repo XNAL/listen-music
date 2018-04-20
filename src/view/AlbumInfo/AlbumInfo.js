@@ -9,6 +9,8 @@ export default class AlbumInfo extends Component {
       albumInfo: null
     }
     this.handleScroll = this.handleScroll.bind(this)
+    this.playSong = this.playSong.bind(this)
+    this.playAllSong = this.playAllSong.bind(this)
   }
 
   componentDidMount() {
@@ -16,7 +18,20 @@ export default class AlbumInfo extends Component {
     
     let mid = this.props.match.params.mid
     fetch.getAlbumInfo(mid)
-      .then(res => {
+      .then(async res => {
+        let albumInfo = res.data
+        let datas = await Promise.all(
+          albumInfo.list.map(async (song) => {
+            let vkeyData = await fetch.getSongVkey(song.songmid)
+            let url = `http://dl.stream.qqmusic.qq.com/C400${song.songmid}.m4a?vkey=${vkeyData.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+            let albumpic = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
+            return Object.assign({}, song, {
+              url,
+              albumpic
+            })
+          })
+        )
+        albumInfo.list = datas
         this.setState({
           albumInfo: res.data
         })
@@ -46,6 +61,51 @@ export default class AlbumInfo extends Component {
     return formatSingers.join(' / ')
   }
 
+  playSong(songInfo, index) {
+    this.props.playSong(Object.assign({}, {
+      index,
+      url: songInfo.url,
+      albumpic: songInfo.albumpic,
+      name: songInfo.songname,
+      currentDuration: 0,
+      lyrics: this.handleSinger(songInfo.singer)
+    }))
+    this.props.setPlayStatus(1)
+    
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.songname,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
+  }
+
+  playAllSong() {
+    let songList = []
+    for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
+      songList.push(Object.assign({}, {
+        index,
+        url: song.url,
+        albumpic: song.albumpic,
+        name: song.songname,
+        currentDuration: 0,
+        lyrics: this.handleSinger(song.singer)
+      }))
+    }
+    
+    this.props.setSongList(songList)
+
+    this.props.playSong(songList[0])
+    this.props.setPlayStatus(1)
+  }
+
   render() {
     const isExistData = this.state.albumInfo !== null
     if (isExistData) {
@@ -69,7 +129,7 @@ export default class AlbumInfo extends Component {
               </section>
               <img className="album-info-backImg" src={`https://y.gtimg.cn/music/photo_new/T002R150x150M000${this.state.albumInfo.mid}.jpg?max_age=2592000)`} alt="专辑图片" />
               <div className="opt-box">
-                <span className="play-all-btn">播放全部</span>
+                <span className="play-all-btn" onClick={this.playAllSong}>播放全部</span>
               </div>
             </section>
             <section className="album-song-list-section">
@@ -77,7 +137,7 @@ export default class AlbumInfo extends Component {
               <ul className="album-song-list">
                 {
                   this.state.albumInfo.list.map((val, index) => (
-                    <li className="album-song-item" key={val.songid}>
+                    <li className="album-song-item" key={val.songid} onClick={() => this.playSong(val, index)}>
                       <div className="album-song-order">{index + 1}</div>
                       <div className="album-song-info">
                         <h3 className="album-song-name txt-nowrap">{val.songname}</h3>
