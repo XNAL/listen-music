@@ -8,9 +8,12 @@ export default class MiniPlay extends Component {
     super(props)
     this.state = {
       timer: null,
-      totalDuration: 0
+      totalDuration: 0,
+      showSongList: false
     }
     this.playMusic = this.playMusic.bind(this)
+    this.showSongList = this.showSongList.bind(this)
+    this.hideSongList = this.hideSongList.bind(this)
   }
 
   componentDidMount() {
@@ -88,12 +91,30 @@ export default class MiniPlay extends Component {
     }
   }
 
+  // 显示歌曲列表
+  showSongList() {
+    this.setState({
+      showSongList: true
+    })
+  }
+
+  // 隐藏歌曲列表
+  hideSongList() {
+    this.setState({
+      showSongList: false
+    })
+  }
+
   render() {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus
     return (
       <div className="miniplay-component">
-        <SongList songList={this.props.songList} />
+        <SongList songList={this.props.songList} 
+          showSongList={this.state.showSongList}
+          currentSong={currentSong}
+          parentHideSongList={this.hideSongList}
+        />
         <audio ref="musicAudio" src={currentSong.url} />
         <div className="song-info">
           <div className={'song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
@@ -116,7 +137,7 @@ export default class MiniPlay extends Component {
             }
           </div>
           <div className="song-list">
-            <i className="iconfont icon-list" />
+            <i className="iconfont icon-list" onClick={this.showSongList}/>
           </div>
         </div>
         <div className="song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>

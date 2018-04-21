@@ -8,6 +8,7 @@ export default class SongList extends Component {
     this.state = {
       playList: []
     }
+    this.hideSongList = this.hideSongList.bind(this)
   }
 
   componentDidMount() {
@@ -17,6 +18,10 @@ export default class SongList extends Component {
           playList: res.recomPlaylist.data.v_hot.slice(0, 6)
         })
       })
+  }
+
+  hideSongList() {
+    this.props.parentHideSongList()
   }
 
   render() {
@@ -38,7 +43,7 @@ export default class SongList extends Component {
         modeText = '顺序播放'
     }
     return (
-      <div className="songlist-component">
+      <div className={'songlist-component ' + (this.props.showSongList ? 'show' : '')}>
         <div className="songlist-header">
           <i className={'iconfont icon-' + iconMode} />
           <span className="songlist-mode">{modeText}</span>
@@ -46,14 +51,15 @@ export default class SongList extends Component {
         </div>
         <ul className="songlist-list">
           {songList.map(val => (
-              <li className="songlist-item" key={val.index} >
+              <li className={'songlist-item ' + (this.props.currentSong.index === val.index ? 'play' : '')} 
+                  key={val.index} >
                 <span className="songlist-item-song">{val.name}</span>
                 <span className="songlist-item-singer">&nbsp;-&nbsp;{val.singer}</span>
                 <i className="iconfont icon-delete" />
               </li>
             ))}
         </ul>
-        <div className="songlist-footer">关闭</div>
+        <div className="songlist-footer" onClick={this.hideSongList}>关闭</div>
       </div>  
     )
   }

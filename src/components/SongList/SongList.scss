@@ -3,8 +3,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 370px;
+  height: 0;
   z-index: 99999;
+  transition: height linear .3s;
+  &.show {
+    height: 370px;
+  }
   .songlist-header {
     display: flex;
     height: 40px;
@@ -14,7 +18,7 @@
     border-bottom: 1px solid#676c74;
     .iconfont {
       flex: 0 0 auto;
-      margin: 0 20px;
+      margin: 0 10px 0 20px;
       font-size: 24px;
     }
     .songlist-length {
@@ -35,6 +39,12 @@
       border-bottom: 1px solid#646a73;
       box-sizing: border-box;
       color: #fff;
+      &.play {
+        color: #2D8CF0;
+        .songlist-item-singer {
+          color: #2D8CF0;
+        }
+      }
       .songlist-item-song {
         flex: 0 0 auto;
         max-width: 60%;
