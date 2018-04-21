@@ -68,10 +68,10 @@ export default class RankInfo extends Component {
       albumpic: songInfo.albumpic,
       name: songInfo.data.songname,
       currentDuration: 0,
-      lyrics: this.handleSinger(songInfo.data.singer)
+      singer: this.handleSinger(songInfo.data.singer)
     }))
     this.props.setPlayStatus(1)
-    
+
     let songList = []
     for (let [index, song] of Object.entries(this.state.rankInfo.songlist)) {
       songList.push(Object.assign({}, {
@@ -80,7 +80,7 @@ export default class RankInfo extends Component {
         albumpic: song.albumpic,
         name: song.data.songname,
         currentDuration: 0,
-        lyrics: this.handleSinger(song.data.singer)
+        singer: this.handleSinger(song.data.singer)
       }))
     }
     
@@ -96,7 +96,7 @@ export default class RankInfo extends Component {
         albumpic: song.albumpic,
         name: song.data.songname,
         currentDuration: 0,
-        lyrics: this.handleSinger(song.data.singer)
+        singer: this.handleSinger(song.data.singer)
       }))
     }
     

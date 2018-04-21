@@ -68,7 +68,7 @@ export default class AlbumInfo extends Component {
       albumpic: songInfo.albumpic,
       name: songInfo.songname,
       currentDuration: 0,
-      lyrics: this.handleSinger(songInfo.singer)
+      singer: this.handleSinger(songInfo.singer)
     }))
     this.props.setPlayStatus(1)
     
@@ -80,7 +80,7 @@ export default class AlbumInfo extends Component {
         albumpic: song.albumpic,
         name: song.songname,
         currentDuration: 0,
-        lyrics: this.handleSinger(song.singer)
+        singer: this.handleSinger(song.singer)
       }))
     }
     
@@ -96,7 +96,7 @@ export default class AlbumInfo extends Component {
         albumpic: song.albumpic,
         name: song.songname,
         currentDuration: 0,
-        lyrics: this.handleSinger(song.singer)
+        singer: this.handleSinger(song.singer)
       }))
     }
     

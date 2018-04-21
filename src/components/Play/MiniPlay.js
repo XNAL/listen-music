@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import './MiniPlay.scss'
 import musicImg from '../../assets/music_default.png'
-import fetch from '../../fetch/index'
+import SongList from '../SongList/SongList'
 
 export default class MiniPlay extends Component {
   constructor(props) {
     super(props)
     this.state = {
       timer: null,
-      // playStatus: 0,
       totalDuration: 0
     }
     this.playMusic = this.playMusic.bind(this)
@@ -94,6 +93,7 @@ export default class MiniPlay extends Component {
     let playStatus = this.props.playStatus
     return (
       <div className="miniplay-component">
+        <SongList songList={this.props.songList} />
         <audio ref="musicAudio" src={currentSong.url} />
         <div className="song-info">
           <div className={'song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
@@ -101,7 +101,7 @@ export default class MiniPlay extends Component {
           </div>
           <div className="song-name-lyrics">
             <div className="song-name">{currentSong.name}</div>
-            <div className="song-lyrics">{currentSong.lyrics}</div>
+            <div className="song-lyrics">{currentSong.singer}</div>
           </div>
         </div>
         <div className="operate-group">
@@ -120,7 +120,7 @@ export default class MiniPlay extends Component {
           </div>
         </div>
         <div className="song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>
-      </div>  
+      </div>
     )
   }
 }
