@@ -91,9 +91,9 @@ export default class PlayListInfo extends Component {
     }
   }
 
-  playSong(songInfo, index) {
+  playSong(songInfo) {
     this.props.playSong(Object.assign({}, {
-      index,
+      songid: songInfo.id,
       url: songInfo.url,
       albumpic: songInfo.albumpic,
       name: songInfo.title,
@@ -105,7 +105,7 @@ export default class PlayListInfo extends Component {
     let songList = []
     for (let [index, song] of Object.entries(this.state.playListInfo.songlist)) {
       songList.push(Object.assign({}, {
-        index,
+        songid: song.id,
         url: song.url,
         albumpic: song.albumpic,
         name: song.title,
@@ -121,7 +121,7 @@ export default class PlayListInfo extends Component {
     let songList = []
     for (let [index, song] of Object.entries(this.state.playListInfo.songlist)) {
       songList.push(Object.assign({}, {
-        index,
+        songid: song.id,
         url: song.url,
         albumpic: song.albumpic,
         name: song.title,
@@ -167,7 +167,7 @@ export default class PlayListInfo extends Component {
               <ul className="playList-song-list">
                 {
                   this.state.playListInfo.songlist.map((val, index) => (
-                    <li className="playList-song-item" key={val.id} onClick={() => this.playSong(val, index)}>
+                    <li className="playList-song-item" key={val.id} onClick={() => this.playSong(val)}>
                       <div className="playList-song-info">
                         <h3 className="playList-song-name txt-nowrap">{val.title}</h3>
                         <p className="playList-song-singer txt-nowrap">{this.handleSinger(val.singer)} · {val.album.name}</p>

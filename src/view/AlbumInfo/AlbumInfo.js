@@ -61,9 +61,9 @@ export default class AlbumInfo extends Component {
     return formatSingers.join(' / ')
   }
 
-  playSong(songInfo, index) {
+  playSong(songInfo) {
     this.props.playSong(Object.assign({}, {
-      index,
+      songid: songInfo.songid,
       url: songInfo.url,
       albumpic: songInfo.albumpic,
       name: songInfo.songname,
@@ -75,7 +75,7 @@ export default class AlbumInfo extends Component {
     let songList = []
     for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
       songList.push(Object.assign({}, {
-        index,
+        songid: song.songid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.songname,
@@ -91,7 +91,7 @@ export default class AlbumInfo extends Component {
     let songList = []
     for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
       songList.push(Object.assign({}, {
-        index,
+        songid: song.songid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.songname,
@@ -137,7 +137,7 @@ export default class AlbumInfo extends Component {
               <ul className="album-song-list">
                 {
                   this.state.albumInfo.list.map((val, index) => (
-                    <li className="album-song-item" key={val.songid} onClick={() => this.playSong(val, index)}>
+                    <li className="album-song-item" key={val.songid} onClick={() => this.playSong(val)}>
                       <div className="album-song-order">{index + 1}</div>
                       <div className="album-song-info">
                         <h3 className="album-song-name txt-nowrap">{val.songname}</h3>

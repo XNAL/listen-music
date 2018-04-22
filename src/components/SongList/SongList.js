@@ -5,23 +5,29 @@ import fetch from '../../fetch/index'
 export default class SongList extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      playList: []
-    }
     this.hideSongList = this.hideSongList.bind(this)
-  }
-
-  componentDidMount() {
-    fetch.getPlayList()
-      .then(res => {
-        this.setState({
-          playList: res.recomPlaylist.data.v_hot.slice(0, 6)
-        })
-      })
+    this.playSong = this.playSong.bind(this)
+    this.deleteSong = this.deleteSong.bind(this)
   }
 
   hideSongList() {
     this.props.parentHideSongList()
+  }
+
+  playSong(index) {
+    this.props.playSong(this.props.songList[index])
+  }
+
+  deleteSong(e, index) {
+    e.stopPropagation()
+    let songList = this.props.songList
+    let deleteSongid = songList[index].songid
+    songList.splice(index, 1)
+    this.props.setSongList(songList)
+    if (deleteSongid === this.props.currentSong.songid) {
+      let newIndex = songList.length <= index ? 0 : index
+      this.props.playSong(songList[newIndex])
+    }
   }
 
   render() {
@@ -50,12 +56,12 @@ export default class SongList extends Component {
           <span className="songlist-length">({songList.length}首)</span>
         </div>
         <ul className="songlist-list">
-          {songList.map(val => (
-              <li className={'songlist-item ' + (this.props.currentSong.index === val.index ? 'play' : '')} 
-                  key={val.index} >
+          {songList.map((val, index) => (
+              <li className={'songlist-item ' + (this.props.currentSong.songid === val.songid ? 'play' : '')} 
+                  key={val.songid} onClick={() => this.playSong(index)} >
                 <span className="songlist-item-song">{val.name}</span>
                 <span className="songlist-item-singer">&nbsp;-&nbsp;{val.singer}</span>
-                <i className="iconfont icon-delete" />
+                <i className="iconfont icon-delete" onClick={(e) => this.deleteSong(e, index)}/>
               </li>
             ))}
         </ul>

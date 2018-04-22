@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './MiniPlay.scss'
 import musicImg from '../../assets/music_default.png'
-import SongList from '../SongList/SongList'
+// import SongList from '../SongList/SongList'
+import SongList from '../../container/SongList'
 
 export default class MiniPlay extends Component {
   constructor(props) {
@@ -110,9 +111,7 @@ export default class MiniPlay extends Component {
     let playStatus = this.props.playStatus
     return (
       <div className="miniplay-component">
-        <SongList songList={this.props.songList} 
-          showSongList={this.state.showSongList}
-          currentSong={currentSong}
+        <SongList showSongList={this.state.showSongList}
           parentHideSongList={this.hideSongList}
         />
         <audio ref="musicAudio" src={currentSong.url} />
