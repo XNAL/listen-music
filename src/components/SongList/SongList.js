@@ -8,6 +8,7 @@ export default class SongList extends Component {
     this.hideSongList = this.hideSongList.bind(this)
     this.playSong = this.playSong.bind(this)
     this.deleteSong = this.deleteSong.bind(this)
+    this.changePlayMode = this.changePlayMode.bind(this)
   }
 
   hideSongList() {
@@ -30,17 +31,27 @@ export default class SongList extends Component {
     }
   }
 
+  changePlayMode(playMode) {
+    let nextMode = 'ORDER'
+    if (playMode === 'ORDER') {
+      nextMode = 'RANDOM'
+    } else if (playMode === 'RANDOM') {
+      nextMode = 'SINGLE'
+    }
+    this.props.setPlayMode(nextMode)
+  }
+
   render() {
     let songList = this.props.songList || []
-    let playMode = this.props.playMode || 0
+    let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     let modeText = ''
-    switch(playMode) {
-      case 1: 
+    switch(playMode.toLowerCase()) {
+      case 'random': 
         iconMode = 'random'
         modeText = '随机播放'
         break
-      case 2: 
+      case 'single': 
         iconMode = 'single'
         modeText = '单曲循环'
         break
@@ -48,9 +59,10 @@ export default class SongList extends Component {
         iconMode = 'order'
         modeText = '顺序播放'
     }
+
     return (
       <div className={'songlist-component ' + (this.props.showSongList ? 'show' : '')}>
-        <div className="songlist-header">
+        <div className="songlist-header" onClick={() => this.changePlayMode(playMode)}>
           <i className={'iconfont icon-' + iconMode} />
           <span className="songlist-mode">{modeText}</span>
           <span className="songlist-length">({songList.length}首)</span>

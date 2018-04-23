@@ -34,13 +34,30 @@ export default class MiniPlay extends Component {
       }
     })
     this.refs.musicAudio.addEventListener("ended", () => {
-      let index = this.props.currentSong.index
-      if (index >= this.props.songList.length - 1) {
-        index = 0
+      // 只有一首歌曲或者单曲循环时
+      if (this.props.songList.length === 1 || this.props.playMode === 'SINGLE') {
+        this.refs.musicAudio.play()
       } else {
-        index ++
+        let playIndex = 0
+        // 随机播放
+        if (this.props.playMode === 'RANDOM') {
+          playIndex = Math.floor(Math.random() * this.props.songList.length)
+        } else {
+          // 循环播放
+          for(let [index, song] of this.props.songList.entries()) {
+            if (song.songid === this.props.currentSong.songid) {
+              playIndex = index
+              break
+            }
+          }
+          if (playIndex >= this.props.songList.length - 1) {
+            playIndex = 0
+          } else {
+            playIndex ++
+          }
+        }
+        this.props.playNextSong(this.props.songList[playIndex])
       }
-      this.props.playNextSong(this.props.songList[index])
     })
   }
 

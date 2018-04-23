@@ -6,7 +6,8 @@ import MiniPlay from '../components/Play/MiniPlay'
 const mapStateToProps = (state) => ({
   currentSong: state.song,
   playStatus: state.playStatus,
-  songList: state.songList
+  songList: state.songList,
+  playMode: state.playMode
 })
 
 // 映射dispatch到props上

@@ -20,4 +20,11 @@ export default {
     let songList = window.localStorage.getItem('LM_SONG_LIST')
     return songList ? JSON.parse(songList) : []
   },
+  setPlayMode (mode) {
+    window.sessionStorage.setItem('LM_PLAY_Mode', mode)
+  },
+  getPlayMode () {
+    let mode = window.sessionStorage.getItem('LM_PLAY_Mode')
+    return mode || 'ORDER'
+  },
 }

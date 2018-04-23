@@ -5,14 +5,16 @@ import storage from '../util/storage'
 import {
   SET_CURRENT_SONG,
   SET_PLAY_STATUS,
-  SET_SONG_LIST
+  SET_SONG_LIST,
+  SET_PLAY_MODE
 } from './actionTypes'
 
 // 初始化当前播放歌曲
 let initState = {
   song: storage.getCurrentSong(),
   playStatus: storage.getPlayDsatus(),
-  songList: storage.getSongList()
+  songList: storage.getSongList(),
+  playMode: storage.getPlayMode()
 }
 
 // 设置当前播放歌曲
@@ -48,8 +50,20 @@ function songList(songList = initState.songList, action) {
   }
 }
 
+// 设置播放模式
+function playMode(playMode = initState.playMode, action) {
+  switch (action.type) {
+    case SET_PLAY_MODE:
+      storage.setPlayMode(action.playMode)
+      return action.playMode
+    default:
+      return playMode
+  }
+}
+
 export default combineReducers({
   song,
   playStatus,
-  songList
+  songList,
+  playMode
 })
