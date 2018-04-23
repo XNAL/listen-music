@@ -61,24 +61,28 @@ export default class SongList extends Component {
     }
 
     return (
-      <div className={'songlist-component ' + (this.props.showSongList ? 'show' : '')}>
-        <div className="songlist-header" onClick={() => this.changePlayMode(playMode)}>
-          <i className={'iconfont icon-' + iconMode} />
-          <span className="songlist-mode">{modeText}</span>
-          <span className="songlist-length">({songList.length}首)</span>
-        </div>
-        <ul className="songlist-list">
-          {songList.map((val, index) => (
-              <li className={'songlist-item ' + (this.props.currentSong.songid === val.songid ? 'play' : '')} 
-                  key={val.songid} onClick={() => this.playSong(index)} >
-                <span className="songlist-item-song">{val.name}</span>
-                <span className="songlist-item-singer">&nbsp;-&nbsp;{val.singer}</span>
-                <i className="iconfont icon-delete" onClick={(e) => this.deleteSong(e, index)}/>
-              </li>
-            ))}
-        </ul>
-        <div className="songlist-footer" onClick={this.hideSongList}>关闭</div>
-      </div>  
+      <div>
+        <div className={'mask ' + (this.props.showSongList ? 'show' : '')} 
+          onClick={this.hideSongList} ></div>
+        <div className={'songlist-component ' + (this.props.showSongList ? 'show' : '')}>
+          <div className="songlist-header" onClick={() => this.changePlayMode(playMode)}>
+            <i className={'iconfont icon-' + iconMode} />
+            <span className="songlist-mode">{modeText}</span>
+            <span className="songlist-length">({songList.length}首)</span>
+          </div>
+          <ul className="songlist-list">
+            {songList.map((val, index) => (
+                <li className={'songlist-item ' + (this.props.currentSong.songid === val.songid ? 'play' : '')} 
+                    key={val.songid} onClick={() => this.playSong(index)} >
+                  <span className="songlist-item-song">{val.name}</span>
+                  <span className="songlist-item-singer">&nbsp;-&nbsp;{val.singer}</span>
+                  <i className="iconfont icon-delete" onClick={(e) => this.deleteSong(e, index)}/>
+                </li>
+              ))}
+          </ul>
+          <div className="songlist-footer" onClick={this.hideSongList}>关闭</div>
+        </div>  
+      </div>
     )
   }
 }

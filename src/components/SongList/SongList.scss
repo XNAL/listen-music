@@ -1,3 +1,16 @@
+.mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(#1e242d, .4);
+  display: none;
+  &.show {
+    display: block;
+  }
+}
 .songlist-component {
   position: fixed;
   left: 0;

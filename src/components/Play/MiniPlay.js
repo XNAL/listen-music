@@ -10,7 +10,8 @@ export default class MiniPlay extends Component {
     this.state = {
       timer: null,
       totalDuration: 0,
-      showSongList: false
+      showSongList: false,
+      isInit: true
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
@@ -21,6 +22,14 @@ export default class MiniPlay extends Component {
     this.refs.musicAudio.load()
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () => {
+      // 歌曲初始化完成后获取当前歌曲的播放时间
+      let currentDuration = this.props.currentSong.currentDuration || 0
+      if (this.state.isInit) {
+        this.refs.musicAudio.currentTime = currentDuration
+        this.setState({
+          isInit: false
+        })
+      }
       if (this.props.playStatus == 1) {
         this.refs.musicAudio.play()
         this.setMusicPlayDuration()
@@ -74,21 +83,39 @@ export default class MiniPlay extends Component {
   }
 
   setMusicPlayDuration() {
-    if (this.props.playStatus == 1) {
+    if (this.state.timer && this.props.playStatus == 0) {
+      // 清除定时器
+      clearInterval(this.state.timer)
+      this.setState({
+        timer: null
+      })
+    } else {
       // 设定定时器，根据播放时间调整播放进度
       let timer = setInterval(() => {
         let currentTime = this.musicCurrentTime()
         this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
           currentDuration: currentTime
         }))
-      }, 2000)
+      }, 1000)
       this.setState({
         timer: timer
       })
-    } else {
-      // 暂停时清除定时器
-      clearInterval(this.state.timer)
     }
+    // if (this.props.playStatus == 0) {
+    //   // 设定定时器，根据播放时间调整播放进度
+    //   let timer = setInterval(() => {
+    //     let currentTime = this.musicCurrentTime()
+    //     this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+    //       currentDuration: currentTime
+    //     }))
+    //   }, 2000)
+    //   this.setState({
+    //     timer: timer
+    //   })
+    // } else {
+    //   // 暂停时清除定时器
+    //   clearInterval(this.state.timer)
+    // }
   }
 
   // 获取音乐总时间
