@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import './MiniPlay.scss'
+import './Player.scss'
 import musicImg from '../../assets/music_default.png'
-import SongList from '../../container/SongList'
-import Player from '../../container/Player'
 
 export default class MiniPlay extends Component {
   constructor(props) {
@@ -83,6 +81,24 @@ export default class MiniPlay extends Component {
     }
   }
 
+  // 上一首/下一首
+  playNextMusic(next) {
+    let playIndex = 0
+    for(let [index, song] of this.props.songList.entries()) {
+      if (song.songid === this.props.currentSong.songid) {
+        playIndex = index
+        break
+      }
+    }
+    playIndex += next
+    if (playIndex >= this.props.songList.length - 1) {
+      playIndex = 0
+    } else if (playIndex < 0){
+      playIndex = this.props.songList.length - 1
+    }
+    this.props.playNextSong(this.props.songList[playIndex])
+  }
+
   // 设置定时器处理音乐播放时间
   setMusicPlayDuration() {
     if (this.state.timer && this.props.playStatus == 0) {
@@ -114,6 +130,7 @@ export default class MiniPlay extends Component {
   musicCurrentTime() {
     return (this.refs.musicAudio.currentTime + 2) || 0
   }
+
   // 设置播放进度
   setMusicProgress(duration) {
     if (this.state.totalDuration === 0) {
@@ -140,39 +157,40 @@ export default class MiniPlay extends Component {
   render() {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus
+    let playMode = this.props.playMode || 'ORDER'
+    let iconMode = ''
+    switch(playMode.toLowerCase()) {
+      case 'random': 
+        iconMode = 'random'
+        break
+      case 'single': 
+        iconMode = 'single'
+        break
+      default:
+        iconMode = 'order'
+    }
     return (
-      <div>
-        <Player />
-        <SongList showSongList={this.state.showSongList}
-          parentHideSongList={this.hideSongList}
-        />
-        <div className="miniplay-component">
-          <audio ref="musicAudio" src={currentSong.url} />
-          <div className="song-info">
-            <div className={'song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
-              <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
-            </div>
-            <div className="song-name-lyrics">
-              <div className="song-name">{currentSong.name}</div>
-              <div className="song-lyrics">{currentSong.singer}</div>
-            </div>
-          </div>
-          <div className="operate-group">
-            <div className="play-control">
-              {
-                playStatus == 1 &&
-                <i className="iconfont icon-stop" onClick={this.playMusic} />
-              }
-              {
-                playStatus == 0 &&
-                <i className="iconfont icon-play" onClick={this.playMusic} />
-              }
-            </div>
-            <div className="song-list">
-              <i className="iconfont icon-list" onClick={this.showSongList}/>
-            </div>
-          </div>
-          <div className="song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>
+      <div className="play-component">
+        <audio ref="musicAudio" src={currentSong.url} />
+        <div className="play-song song-name">{currentSong.name}</div>
+        <div className="play-song song-singer">{currentSong.singer}</div>
+        <div className={'play-song song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
+          <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
+        </div>
+        <div className="song-lyrics">{currentSong.singer}</div>
+        <div className="play-song song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>
+        <div className="play-song operate-group">
+          <i className={'iconfont icon-' + iconMode} />
+          <i className="iconfont icon-prev" onClick={() => this.playNextMusic(-1)} />
+          {
+            playStatus == 1 &&
+            <i className="iconfont icon-stop" onClick={this.playMusic} />
+          }
+          {
+            playStatus == 0 &&
+            <i className="iconfont icon-play" onClick={this.playMusic} />
+          }
+          <i className="iconfont icon-next" onClick={() => this.playNextMusic(1)} />
         </div>
       </div>
     )
