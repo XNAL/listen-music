@@ -10,6 +10,12 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  .icon-collapse {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+  }
   .play-song {
     widows: 100%;
     flex: 0 0 auto;
@@ -22,6 +28,29 @@
       margin: auto;
       display: block;
       border-radius: 100%;
+    }
+  }
+  .song-progress {
+    position: relative;
+    width: 80%;
+    height: 2px;
+    background: #ccc;
+    .progress-percent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #2D8CF0;
+    }
+  }
+  .operate-group {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    .iconfont {
+      font-size: 32px;
+      color: #2D8CF0;
     }
   }
 }

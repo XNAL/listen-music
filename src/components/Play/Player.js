@@ -1,23 +1,29 @@
 import React, { Component } from 'react'
 import './Player.scss'
 import musicImg from '../../assets/music_default.png'
+import MiniPlay from './MiniPlay'
+import SongList from '../../container/SongList'
 
-export default class MiniPlay extends Component {
+export default class Player extends Component {
   constructor(props) {
     super(props)
     this.state = {
       timer: null,
       totalDuration: 0,
       showSongList: false,
-      isInit: true
+      isInit: true,
+      showPlayer: false
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
     this.hideSongList = this.hideSongList.bind(this)
+    this.hidePlayer = this.hidePlayer.bind(this)
+    this.showPlayer = this.showPlayer.bind(this)
   }
 
   componentDidMount() {
     this.refs.musicAudio.load()
+    this.refs.musicAudio.volume = 0.6
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () => {
       // 歌曲初始化完成后获取当前歌曲的播放时间
@@ -153,6 +159,18 @@ export default class MiniPlay extends Component {
       showSongList: false
     })
   }
+  // 隐藏播放器
+  hidePlayer() {
+    this.setState({
+      showPlayer: false
+    })
+  }
+  // 显示播放器
+  showPlayer() {
+    this.setState({
+      showPlayer: true
+    })
+  }
 
   render() {
     let currentSong = this.props.currentSong
@@ -170,28 +188,47 @@ export default class MiniPlay extends Component {
         iconMode = 'order'
     }
     return (
-      <div className="play-component">
+      <div className="player">
         <audio ref="musicAudio" src={currentSong.url} />
-        <div className="play-song song-name">{currentSong.name}</div>
-        <div className="play-song song-singer">{currentSong.singer}</div>
-        <div className={'play-song song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
-          <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
-        </div>
-        <div className="song-lyrics">{currentSong.singer}</div>
-        <div className="play-song song-progress" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}/>
-        <div className="play-song operate-group">
-          <i className={'iconfont icon-' + iconMode} />
-          <i className="iconfont icon-prev" onClick={() => this.playNextMusic(-1)} />
-          {
-            playStatus == 1 &&
-            <i className="iconfont icon-stop" onClick={this.playMusic} />
-          }
-          {
-            playStatus == 0 &&
-            <i className="iconfont icon-play" onClick={this.playMusic} />
-          }
-          <i className="iconfont icon-next" onClick={() => this.playNextMusic(1)} />
-        </div>
+        { this.state.showPlayer && 
+          <div className="play-component">
+            <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
+            <div className="play-song song-name">{currentSong.name}</div>
+            <div className="play-song song-singer">{currentSong.singer}</div>
+            <div className={'play-song song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
+              <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
+            </div>
+            <div className="song-lyrics">{currentSong.singer}</div>
+            <div className="play-song song-progress">
+              <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
+            </div>
+            <div className="play-song operate-group">
+              <i className={'iconfont icon-' + iconMode} />
+              <i className="iconfont icon-prev" onClick={() => this.playNextMusic(-1)} />
+              {
+                playStatus == 1 &&
+                <i className="iconfont icon-stop" onClick={this.playMusic} />
+              }
+              {
+                playStatus == 0 &&
+                <i className="iconfont icon-play" onClick={this.playMusic} />
+              }
+              <i className="iconfont icon-next" onClick={() => this.playNextMusic(1)} />
+              <i className="iconfont icon-list" onClick={this.showSongList}/>
+            </div>
+          </div>
+        }
+        <SongList showSongList={this.state.showSongList}
+          parentHideSongList={this.hideSongList}
+        />
+        { !this.state.showPlayer && 
+          <MiniPlay currentSong={currentSong} 
+            totalDuration = {this.state.totalDuration}
+            playStatus={playStatus}
+            parentShowPlayer={this.showPlayer}
+            parentPlayMusic={this.playMusic}
+          /> 
+        }
       </div>
     )
   }
