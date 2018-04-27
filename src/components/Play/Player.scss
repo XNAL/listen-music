@@ -5,11 +5,23 @@
   left: 0;
   right: 0;
   z-index: 100;
+  color: #ccc;
   background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  z-index: 99;
+  .album-info-backImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(36px);
+  }
   .icon-collapse {
     position: absolute;
     top: 20px;
@@ -19,6 +31,7 @@
   .play-song {
     widows: 100%;
     flex: 0 0 auto;
+    z-index: 999;
   }
   .song-img {
     width: 80%;
@@ -31,16 +44,24 @@
     }
   }
   .song-progress {
-    position: relative;
-    width: 80%;
-    height: 2px;
-    background: #ccc;
-    .progress-percent {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      background: #2D8CF0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .song-time {
+      margin: 0 10px;
+    }
+    .progress-bk {
+      position: relative;
+      width: 100%;
+      height: 2px;
+      background: #ccc;
+      .progress-percent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #2D8CF0;
+      }
     }
   }
   .operate-group {
@@ -49,7 +70,7 @@
     justify-content: space-around;
     align-items: center;
     .iconfont {
-      font-size: 32px;
+      font-size: 30px;
       color: #2D8CF0;
     }
   }

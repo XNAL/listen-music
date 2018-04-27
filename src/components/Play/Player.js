@@ -19,6 +19,8 @@ export default class Player extends Component {
     this.hideSongList = this.hideSongList.bind(this)
     this.hidePlayer = this.hidePlayer.bind(this)
     this.showPlayer = this.showPlayer.bind(this)
+    this.changePlayMode = this.changePlayMode.bind(this)
+    this.fomatSongTime = this.fomatSongTime.bind(this)
   }
 
   componentDidMount() {
@@ -90,17 +92,22 @@ export default class Player extends Component {
   // 上一首/下一首
   playNextMusic(next) {
     let playIndex = 0
-    for(let [index, song] of this.props.songList.entries()) {
-      if (song.songid === this.props.currentSong.songid) {
-        playIndex = index
-        break
+    // 随机播放
+    if (this.props.playMode === 'RANDOM') {
+      playIndex = Math.floor(Math.random() * this.props.songList.length)
+    } else {
+      for(let [index, song] of this.props.songList.entries()) {
+        if (song.songid === this.props.currentSong.songid) {
+          playIndex = index
+          break
+        }
       }
-    }
-    playIndex += next
-    if (playIndex >= this.props.songList.length - 1) {
-      playIndex = 0
-    } else if (playIndex < 0){
-      playIndex = this.props.songList.length - 1
+      playIndex += next
+      if (playIndex >= this.props.songList.length - 1) {
+        playIndex = 0
+      } else if (playIndex < 0){
+        playIndex = this.props.songList.length - 1
+      }
     }
     this.props.playNextSong(this.props.songList[playIndex])
   }
@@ -171,7 +178,22 @@ export default class Player extends Component {
       showPlayer: true
     })
   }
+  // 改变歌曲播放模式
+  changePlayMode(playMode) {
+    let nextMode = 'ORDER'
+    if (playMode === 'ORDER') {
+      nextMode = 'RANDOM'
+    } else if (playMode === 'RANDOM') {
+      nextMode = 'SINGLE'
+    }
+    this.props.setPlayMode(nextMode)
+  }
 
+  fomatSongTime(time) {
+    let minutes = Math.floor(time / 60)
+    let seconds = Math.round(time % 60)
+    return `${minutes < 10 ? ('0' + minutes) : minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
+  }
   render() {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus
@@ -192,6 +214,7 @@ export default class Player extends Component {
         <audio ref="musicAudio" src={currentSong.url} />
         { this.state.showPlayer && 
           <div className="play-component">
+            <img className="album-info-backImg" src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="专辑图片" />
             <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
             <div className="play-song song-name">{currentSong.name}</div>
             <div className="play-song song-singer">{currentSong.singer}</div>
@@ -200,10 +223,14 @@ export default class Player extends Component {
             </div>
             <div className="song-lyrics">{currentSong.singer}</div>
             <div className="play-song song-progress">
-              <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
+              <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
+              <div className="progress-bk">
+                <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
+              </div>
+              <p className="song-time total-time">{this.fomatSongTime(this.state.totalDuration)}</p>
             </div>
             <div className="play-song operate-group">
-              <i className={'iconfont icon-' + iconMode} />
+              <i className={'iconfont icon-' + iconMode} onClick={() => this.changePlayMode(playMode)} />
               <i className="iconfont icon-prev" onClick={() => this.playNextMusic(-1)} />
               {
                 playStatus == 1 &&
