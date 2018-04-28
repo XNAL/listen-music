@@ -16,31 +16,51 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: -1;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: blur(36px);
+    filter: blur(65px);
+    opacity: .6;
   }
   .icon-collapse {
     position: absolute;
     top: 20px;
     left: 20px;
-    font-size: 24px;
+    font-size: 20px;
+    color: #fff;
   }
   .play-song {
     widows: 100%;
     flex: 0 0 auto;
     z-index: 999;
+    color: #fff;
   }
   .song-img {
     width: 80%;
+    animation: rotate 18s infinite linear;
     img {
       width: 100%;
       height: 100%;
       margin: auto;
       display: block;
       border-radius: 100%;
+    }
+
+    &.running {
+      animation-play-state: running;
+    }
+    &.paused {
+      animation-play-state: paused;
+    }
+    @keyframes rotate {
+      from {
+          transform: rotate(0deg);
+      }
+
+      to {
+          transform: rotate(360deg);
+      }
     }
   }
   .song-progress {
@@ -54,7 +74,7 @@
       position: relative;
       width: 100%;
       height: 2px;
-      background: #ccc;
+      background: rgba(255,255,255,.2);
       .progress-percent {
         position: absolute;
         top: 0;
@@ -70,8 +90,19 @@
     justify-content: space-around;
     align-items: center;
     .iconfont {
-      font-size: 30px;
+      font-size: 24px;
       color: #2D8CF0;
+      &.icon-prev,
+      &.icon-next {
+        font-size: 36px;
+      }
+      &.icon-stop,
+      &.icon-play {
+        font-size: 48px;
+      }
+      &.icon-list {
+        font-size: 20px;
+      }
     }
   }
 }

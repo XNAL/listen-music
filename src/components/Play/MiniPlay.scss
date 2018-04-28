@@ -21,13 +21,16 @@
       height: 40px;
       border-radius: 100%;
       overflow: hidden;
+      animation: rotate 18s infinite linear;
       img {
         width: 100%;
         height: 100%;
       }
-
-      &.imgRotate {
-        animation: rotate 15s infinite linear;
+      &.running {
+        animation-play-state: running;
+      }
+      &.paused {
+        animation-play-state: paused;
       }
       @keyframes rotate {
         from {

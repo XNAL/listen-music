@@ -71,7 +71,7 @@ export default class MiniPlay extends Component {
         />
         <div className="miniplay-component">
           <div className="song-info" onClick={this.showPlayer}>
-            <div className={'song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
+            <div className={'song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
             <div className="song-name-lyrics">

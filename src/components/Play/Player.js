@@ -218,10 +218,10 @@ export default class Player extends Component {
             <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
             <div className="play-song song-name">{currentSong.name}</div>
             <div className="play-song song-singer">{currentSong.singer}</div>
-            <div className={'play-song song-img ' + (playStatus == 1 ? 'imgRotate' : '')}>
+            <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
-            <div className="song-lyrics">{currentSong.singer}</div>
+            <div className="play-song song-lyrics">{currentSong.singer}</div>
             <div className="play-song song-progress">
               <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
               <div className="progress-bk">
