@@ -36,15 +36,55 @@
     z-index: 999;
     color: #fff;
   }
+  .song-name {
+    font-size: 16px;
+  }
+  .song-singer {
+    position: relative;
+    font-size: 12px;
+    text-align: center;
+    .singers {
+      display: inline-block;
+      max-width: 80%;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    &::before,
+    &::after {
+      content: '';
+      display: inline-block;
+      position: relative;
+      top: -6px;
+      width: 20px;
+      height: 1px;
+      border-radius: 10px;
+      background: #fff;
+      margin: 0 10px;
+    }
+  }
   .song-img {
     width: 80%;
     animation: rotate 18s infinite linear;
     img {
+      position: relative;
       width: 100%;
       height: 100%;
       margin: auto;
       display: block;
       border-radius: 100%;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 105%;
+      height: 105%;
+      background: #444;
+      opacity: 0.6;
+      border-radius: 100%;
+      z-index: -1;
     }
 
     &.running {
@@ -81,6 +121,17 @@
         left: 0;
         height: 100%;
         background: #2D8CF0;
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: -3px;
+          left: 100%;
+          width: 8px;
+          height: 8px;
+          border-radius: 100%;
+          background: #2D8CF0;
+        }
       }
     }
   }

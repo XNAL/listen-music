@@ -191,7 +191,7 @@ export default class Player extends Component {
 
   fomatSongTime(time) {
     let minutes = Math.floor(time / 60)
-    let seconds = Math.round(time % 60)
+    let seconds = Math.floor(time % 60)
     return `${minutes < 10 ? ('0' + minutes) : minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
   }
   render() {
@@ -217,7 +217,9 @@ export default class Player extends Component {
             <img className="album-info-backImg" src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="专辑图片" />
             <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
             <div className="play-song song-name">{currentSong.name}</div>
-            <div className="play-song song-singer">{currentSong.singer}</div>
+            <div className="play-song song-singer">
+              <p className="singers">{currentSong.singer}</p>
+            </div>
             <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
