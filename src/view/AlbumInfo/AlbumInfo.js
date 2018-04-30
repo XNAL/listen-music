@@ -64,6 +64,7 @@ export default class AlbumInfo extends Component {
   playSong(songInfo) {
     this.props.playSong(Object.assign({}, {
       songid: songInfo.songid,
+      songmid: songInfo.songmid,
       url: songInfo.url,
       albumpic: songInfo.albumpic,
       name: songInfo.songname,
@@ -76,6 +77,7 @@ export default class AlbumInfo extends Component {
     for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
       songList.push(Object.assign({}, {
         songid: song.songid,
+        songmid: song.songmid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.songname,
@@ -92,6 +94,7 @@ export default class AlbumInfo extends Component {
     for (let [index, song] of Object.entries(this.state.albumInfo.list)) {
       songList.push(Object.assign({}, {
         songid: song.songid,
+        songmid: song.songmid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.songname,

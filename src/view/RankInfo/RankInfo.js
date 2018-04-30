@@ -64,6 +64,7 @@ export default class RankInfo extends Component {
   playSong(songInfo) {
     this.props.playSong(Object.assign({}, {
       songid: songInfo.data.songid,
+      songmid: songInfo.data.songmid,
       url: songInfo.url,
       albumpic: songInfo.albumpic,
       name: songInfo.data.songname,
@@ -76,6 +77,7 @@ export default class RankInfo extends Component {
     for (let [index, song] of Object.entries(this.state.rankInfo.songlist)) {
       songList.push(Object.assign({}, {
         songid: song.data.songid,
+        songmid: song.data.songmid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.data.songname,
@@ -92,6 +94,7 @@ export default class RankInfo extends Component {
     for (let [index, song] of Object.entries(this.state.rankInfo.songlist)) {
       songList.push(Object.assign({}, {
         songid: song.data.songid,
+        songmid: song.data.songmid,
         url: song.url,
         albumpic: song.albumpic,
         name: song.data.songname,

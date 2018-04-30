@@ -14,7 +14,9 @@ export const JSONP_URL = {
   // 歌手列表
   singerList: 'https://c.y.qq.com/v8/fcg-bin/v8.fcg',
   // 获取歌曲Vkey
-  songVkey: 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
+  songVkey: 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg',
+  // 获取歌词
+  songLyric: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 }
 
 export const JSONP_PARAMS = {

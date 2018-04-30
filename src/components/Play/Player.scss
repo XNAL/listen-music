@@ -103,6 +103,12 @@
       }
     }
   }
+  .song-lyrics {
+    height: 18px;
+    overflow: hidden;
+    line-height: 1.5;
+    font-size: 12px;
+  }
   .song-progress {
     width: 100%;
     display: flex;

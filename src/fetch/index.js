@@ -210,5 +210,25 @@ export default {
    }
    return fetchJsonp(JSONP_URL.songVkey, option, params)
  },
+ /**
+   * @method 获取歌词
+   * @type jsonp
+   * @return json
+   */
+  getSongLyric (mid) {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      callback: 'MusicJsonCallback_lrc',
+      pcachetime: new Date().getTime(),
+      songmid: mid,
+      // g_tk: 5381,
+      jsonpCallback: 'MusicJsonCallback_lrc',
+      loginUin: 0,
+      hostUin: 0,
+      format: 'json',
+      platform: 'yqq',
+      needNewCode: 0,
+    })
+    return fetchApi('/proxyApi/getSongLyric', params)
+  },
 }
   

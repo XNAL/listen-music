@@ -3,6 +3,7 @@ import './Player.scss'
 import musicImg from '../../assets/music_default.png'
 import MiniPlay from './MiniPlay'
 import SongList from '../../container/SongList'
+import fetch from '../../fetch/index'
 
 export default class Player extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class Player extends Component {
       totalDuration: 0,
       showSongList: false,
       isInit: true,
-      showPlayer: false
+      showPlayer: false,
+      lyricsList: [1, 2, 3]
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
@@ -26,8 +28,33 @@ export default class Player extends Component {
   componentDidMount() {
     this.refs.musicAudio.load()
     this.refs.musicAudio.volume = 0.6
+
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () => {
+      fetch.getSongLyric(this.props.currentSong.songmid)
+        .then(res => {
+          let lyricData = res.data.data
+          let pattern = /\[\d{2}:\d{2}.\d{2}\]/g
+          let arrLyric = lyricData.split('\n')
+          let lyricsList = [];
+          while (!pattern.test(arrLyric[0])) {
+            arrLyric = arrLyric.slice(1);
+          }
+          for (let data of arrLyric) {
+            let index = data.indexOf(']')
+            let time = data.substring(0, index + 1)
+            let value = data.substring(index + 1)
+            if (value !== '') {
+              let timeString = time.substring(1, time.length - 2)
+              let timeArr = timeString.split(':')
+              lyricsList.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value])
+            }
+          }
+          console.log(lyricsList)
+          this.setState({
+            lyricsList: lyricsList
+          })
+        })
       // 歌曲初始化完成后获取当前歌曲的播放时间
       let currentDuration = this.props.currentSong.currentDuration || 0
       if (this.state.isInit) {
@@ -223,7 +250,15 @@ export default class Player extends Component {
             <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
-            <div className="play-song song-lyrics">{currentSong.singer}</div>
+            <div className="play-song song-lyrics">
+              <ul className="song-lyrics-list">
+                {
+                  this.state.lyricsList.map((val, index) => (
+                    <li className="song-lyrics-item" key={index}>{val[1]}</li>
+                  ))
+                } 
+              </ul>
+            </div>
             <div className="play-song song-progress">
               <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
               <div className="progress-bk">
