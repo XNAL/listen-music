@@ -108,6 +108,13 @@
     overflow: hidden;
     line-height: 1.5;
     font-size: 12px;
+    .song-lyrics-list {
+      transition: all 0.5s linear;
+    }
+    .song-lyrics-item {
+      height: 18px;
+      text-align: center;
+    }
   }
   .song-progress {
     width: 100%;
