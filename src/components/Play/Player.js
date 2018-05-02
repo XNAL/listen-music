@@ -239,6 +239,7 @@ export default class Player extends Component {
       }
     }
   }
+  
   render() {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus
@@ -273,7 +274,7 @@ export default class Player extends Component {
               <ul className="song-lyrics-list" style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
                 {
                   this.state.lyricsList.map((val, index) => (
-                    <li className="song-lyrics-item" key={index}>{val[1]}</li>
+                    <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
                   ))
                 } 
               </ul>

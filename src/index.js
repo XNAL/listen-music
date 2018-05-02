@@ -11,6 +11,7 @@ import PlayListInfo from './container/PlayListInfo'
 import Rank from './view/Rank/Rank'
 import RankInfo from './container/RankInfo'
 import Singer from './view/Singer/Singer'
+import SingerInfo from './container/SingerInfo'
 import './styles/index.scss'
 
 import { Provider } from 'react-redux'
@@ -25,6 +26,7 @@ ReactDOM.render((
       <Route path="/AlbumInfo/:mid" component={AlbumInfo} />
       <Route path="/PlayListInfo/:id" component={PlayListInfo} />
       <Route path="/Singer" component={Singer} />
+      <Route path="/SingerInfo/:id" component={SingerInfo} />
       <Route path="/Rank" component={Rank} />
       <Route path="/RankInfo/:id" component={RankInfo} />
       <Player />

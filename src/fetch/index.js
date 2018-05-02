@@ -187,6 +187,28 @@ export default {
     return fetchJsonp(JSONP_URL.singerList, option, params)
   },
   /**
+   * @method 获取歌手详情
+   * @type jsonp
+   * @return json
+   */
+  getSingerInfo (id, pageIndex) {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      singerid: id,
+      g_tk: 5381,
+      uin: 0,
+      format: 'jsonp',
+      notice: 0,
+      platform: 'h5page',
+      needNewCode: 1,
+      order: 'listen',
+      from: 'h5',
+      num: 15,
+      begin: pageIndex,
+      _: 1525265978439
+    })
+    return fetchJsonp(JSONP_URL.singerInfo, JSONP_OPTIONS, params)
+  },
+  /**
   * @method 获取歌曲vkey
   * @type jsonp
   * @return json

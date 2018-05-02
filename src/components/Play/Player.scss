@@ -114,6 +114,10 @@
     .song-lyrics-item {
       height: 18px;
       text-align: center;
+
+      &.current {
+        color: #2D8CF0;
+      }
     }
   }
   .song-progress {

@@ -13,6 +13,8 @@ export const JSONP_URL = {
   rankInfo: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg',
   // 歌手列表
   singerList: 'https://c.y.qq.com/v8/fcg-bin/v8.fcg',
+  // 歌手详情
+  singerInfo: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg',
   // 获取歌曲Vkey
   songVkey: 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg',
   // 获取歌词
