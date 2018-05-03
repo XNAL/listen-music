@@ -178,4 +178,45 @@
       color: #777;
     }
   }
+  .singer-album-section {
+    .singer-album-title {
+      padding: 15px 0;
+      line-height: 1.2;
+      white-space: nowrap;
+      letter-spacing: 5px;
+      font-size: 18px;
+      color: #000;
+      text-align: center;
+      font-weight: 300;
+    }
+    .singer-album-list {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      overflow: hidden;
+      justify-content: space-around;
+      font-weight: 300;
+      .singer-album-item {
+        width: 33%;
+        box-sizing: border-box;
+        font-size: 12px;
+        img {
+          width: 100%;
+          height: auto;
+        }
+        .album-name,
+        .album-date {
+          margin: 10px 0 10px 5px;
+          box-sizing: border-box;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          color: #777;
+        }
+        .album-name {
+          color: #000;
+        }
+      }
+    }
+  }
 }

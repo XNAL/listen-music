@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './SingerInfo.scss'
 import fetch from '../../fetch/index'
 
@@ -76,12 +77,22 @@ export default class SingerInfo extends Component {
     }
   }
 
+  // 处理歌手数据
   handleSinger(singers) {
     let formatSingers = []
     for (let singer of Object.values(singers)) {
       formatSingers.push(singer.name)
     }
     return formatSingers.join(' / ')
+  }
+
+  // 格式化粉丝数据
+  formatFans(fans) {
+    if (fans < 10000) {
+      return fans + ' '
+    } else {
+      return (fans / 10000).toFixed(1) + ' 万'
+    }
   }
 
   playSong(songInfo) {
@@ -147,7 +158,7 @@ export default class SingerInfo extends Component {
                   <h1 className="singer-info-name">{this.state.singerInfo.singer_name}</h1>
                   <div className="singer-info-author">
                     <div className="author-name">
-                      <span>粉丝：{this.state.singerInfo.fans} 万人</span>
+                      <span>粉丝：{this.formatFans(this.state.singerInfo.fans)}人</span>
                     </div>
                   </div>
                   {
@@ -178,6 +189,25 @@ export default class SingerInfo extends Component {
               { !this.state.isNoMore &&
                 <p className="load-more" onClick={this.loadMore}>点击加载更多歌曲</p>
               }
+            </section>
+            <section className="singer-album-section">
+              <h2 className="singer-album-title">最新专辑</h2>
+              <ul className="singer-album-list">
+                {
+                  this.state.singerInfo.albumlist.map((val, index) => (
+                    <li className="singer-album-item" key={val.albummid}>
+                      <Link to={`/AlbumInfo/${val.albummid}`} className="album-link">
+                        <img className="album-img"
+                          src={val.pic}
+                          alt="专辑图片"
+                        />
+                        <p className="album-name">{val.name}</p>
+                        <p className="album-date">{val.publish_date}</p>
+                      </Link>
+                    </li>
+                  ))
+                }
+              </ul>
             </section>
           </section>
       )
