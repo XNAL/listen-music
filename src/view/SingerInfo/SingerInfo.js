@@ -10,12 +10,14 @@ export default class SingerInfo extends Component {
       id: 0,
       singerInfo: null,
       pageIndex: 0,
-      isNoMore: false
+      isNoMore: false,
+      showDescModal: false
     }
     this.handleScroll = this.handleScroll.bind(this)
     this.loadMore = this.loadMore.bind(this)
     this.playSong = this.playSong.bind(this)
     this.playAllSong = this.playAllSong.bind(this)
+    this.showDescModal = this.showDescModal.bind(this)
   }
 
   componentDidMount() {
@@ -141,11 +143,16 @@ export default class SingerInfo extends Component {
 
     this.props.playSong(songList[0])
     this.props.setPlayStatus(1)
-
   }
 
+  showDescModal(isShow) {
+    this.setState({
+      showDescModal: isShow
+    })
+  }
   render() {
     const isExistData = this.state.singerInfo !== null
+    let arrDesc = (this.state.singerInfo && this.state.singerInfo.SingerDesc) ? (this.state.singerInfo.SingerDesc.split('\n') || []) : []
     if (isExistData) {
       return (
           <section className="singer-info">
@@ -163,7 +170,7 @@ export default class SingerInfo extends Component {
                   </div>
                   {
                     this.state.singerInfo.SingerDesc !== '' &&
-                    <p className="singer-info-desc">{this.state.singerInfo.SingerDesc}</p>
+                    <p className="singer-info-desc" onClick={() => this.showDescModal(true)}>{this.state.singerInfo.SingerDesc}</p>
                   }
                 </div>
               </section>
@@ -209,6 +216,20 @@ export default class SingerInfo extends Component {
                 }
               </ul>
             </section>
+            { this.state.showDescModal &&
+              <div className="modal-mask">
+                <div className="singer-desc-modal">
+                    <div className="desc-content">
+                    {
+                      arrDesc.map((desc, index) => (
+                        <p className="desc-para" key={index}>{desc}</p>
+                      ))
+                    }
+                    </div>
+                    <div className="btn-close" onClick={() => this.showDescModal(false)}>关闭</div>
+                </div>
+              </div>
+            }
           </section>
       )
     } else {

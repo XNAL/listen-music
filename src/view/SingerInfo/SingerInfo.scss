@@ -219,4 +219,46 @@
       }
     }
   }
+  .modal-mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 9999;
+  }
+  .singer-desc-modal {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-height: 70%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #000;
+    line-height: 1.5;
+    font-weight: 300;
+    background: #fff;
+  }
+  .desc-content {
+    flex: 1;
+    margin: 26px 0 18px;
+    overflow: auto;
+
+    .desc-para {
+      margin: 0 30px 8px;
+    }
+  }
+  .btn-close {
+    flex: 0 0 auto;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border-top: 1px solid #E2E3E7;
+  }
 }
