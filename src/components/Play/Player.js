@@ -309,6 +309,8 @@ export default class Player extends Component {
           <MiniPlay currentSong={currentSong} 
             totalDuration = {this.state.totalDuration}
             playStatus={playStatus}
+            lyricsList={this.state.lyricsList}
+            lyricIndex={lyricIndex}
             parentShowPlayer={this.showPlayer}
             parentPlayMusic={this.playMusic}
           /> 

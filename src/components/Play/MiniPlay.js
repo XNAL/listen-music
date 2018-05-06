@@ -76,7 +76,17 @@ export default class MiniPlay extends Component {
             </div>
             <div className="song-name-lyrics">
               <div className="song-name">{currentSong.name}</div>
-              <div className="song-lyrics">{currentSong.singer}</div>
+              {/* <div className="song-lyrics">{currentSong.singer}</div> */}
+
+              <div className="play-song song-lyrics">
+                <ul className="song-lyrics-list" style={{transform: `translateY(${ -18 * this.props.lyricIndex}px)` }}>
+                  {
+                    this.props.lyricsList.map((val, index) => (
+                      <li className={"song-lyrics-item " + (this.props.lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                    ))
+                  } 
+                </ul>
+              </div>
             </div>
           </div>
           <div className="operate-group">

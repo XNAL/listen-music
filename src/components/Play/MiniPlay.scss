@@ -50,10 +50,20 @@
         line-height: 24px;
       }
       .song-lyrics {
+        height: 18px;
+        overflow: hidden;
+        line-height: 1.5;
         font-size: 12px;
-        line-height: 16px;
-        color: #666;
-        font-weight: 300;
+        .song-lyrics-list {
+          transition: all 0.5s linear;
+        }
+        .song-lyrics-item {
+          height: 18px;
+    
+          &.current {
+            color: #2D8CF0;
+          }
+        }
       }
     }
   }
