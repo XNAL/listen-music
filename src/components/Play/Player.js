@@ -75,6 +75,9 @@ export default class Player extends Component {
       }
     })
     this.refs.musicAudio.addEventListener("ended", () => {
+      this.setState({
+        lyricsList: []
+      })
       // 只有一首歌曲或者单曲循环时
       if (this.props.songList.length === 1 || this.props.playMode === 'SINGLE') {
         this.refs.musicAudio.play()
@@ -136,6 +139,9 @@ export default class Player extends Component {
       }
     }
     this.props.playNextSong(this.props.songList[playIndex])
+    this.setState({
+      lyricsList: []
+    })
   }
 
   // 设置定时器处理音乐播放时间
@@ -227,15 +233,17 @@ export default class Player extends Component {
 
   // 获取歌词数组显示index
   songLyricIndex(currentDuration) {
-    if (this.props.playStatus == 1) {
-      let lyricsList = this.state.lyricsList
-      for(let i = 0; i < lyricsList.length; i++) {
-        let nextLyricTime = 0
-        let nextIndex = i < lyricsList.length - 1 ? (i + 1) : i
-        nextLyricTime = lyricsList[nextIndex][0]
-        if (currentDuration >= lyricsList[i][0] && currentDuration <= nextLyricTime) {
-          return lyricsList[i][1] === '' ? (i - 1) : i
-        }
+    let lyricsList = this.state.lyricsList
+    for(let i = 0; i < lyricsList.length; i++) {
+      let nextLyricTime = 0
+      let nextIndex = i < lyricsList.length - 1 ? (i + 1) : i
+      nextLyricTime = lyricsList[nextIndex][0]
+      if (i === lyricsList.length - 1) {
+        return i
+      }
+      else if (currentDuration >= lyricsList[i][0] && currentDuration <= nextLyricTime) {
+        let index = lyricsList[i][1] === '' ? (i - 1) : i
+        return index
       }
     }
   }
@@ -271,7 +279,7 @@ export default class Player extends Component {
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
             <div className="play-song song-lyrics">
-              <ul className="song-lyrics-list" style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
+               <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
                 {
                   this.state.lyricsList.map((val, index) => (
                     <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
