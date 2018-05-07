@@ -238,7 +238,7 @@ export default class Player extends Component {
       let nextLyricTime = 0
       let nextIndex = i < lyricsList.length - 1 ? (i + 1) : i
       nextLyricTime = lyricsList[nextIndex][0]
-      if (i === lyricsList.length - 1) {
+      if (i === lyricsList.length - 1 && currentDuration >= lyricsList[i][0]) {
         return i
       }
       else if (currentDuration >= lyricsList[i][0] && currentDuration <= nextLyricTime) {
