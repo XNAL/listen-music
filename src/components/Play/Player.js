@@ -24,6 +24,7 @@ export default class Player extends Component {
     this.changePlayMode = this.changePlayMode.bind(this)
     this.fomatSongTime = this.fomatSongTime.bind(this)
     this.songLyricIndex = this.songLyricIndex.bind(this)
+    this.changePlayProgress = this.changePlayProgress.bind(this)
   }
 
   componentDidMount() {
@@ -247,6 +248,24 @@ export default class Player extends Component {
       }
     }
   }
+
+  // 改变歌曲播放进度
+  changePlayProgress(e) {
+    let progressWidth = this.refs.progressRef.clientWidth
+    let progressLeft = this.refs.progressRef.offsetLeft
+    let clickPostion = e.nativeEvent.pageX
+
+    if (clickPostion < progressLeft && clickPostion > (progressLeft + progressWidth)) {
+      return
+    } else {
+      let newTime = Math.floor(this.state.totalDuration * (clickPostion - progressLeft) / progressWidth)
+      newTime = newTime >= this.state.totalDuration ? (this.state.totalDuration - 0.1) : newTime
+      this.refs.musicAudio.currentTime = newTime
+      this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+        currentDuration: newTime
+      }))
+    }
+  }
   
   render() {
     let currentSong = this.props.currentSong
@@ -289,7 +308,7 @@ export default class Player extends Component {
             </div>
             <div className="play-song song-progress">
               <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
-              <div className="progress-bk">
+              <div className="progress-bk" ref="progressRef" onClick={(e) => this.changePlayProgress(e)}>
                 <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
               </div>
               <p className="song-time total-time">{this.fomatSongTime(this.state.totalDuration)}</p>
