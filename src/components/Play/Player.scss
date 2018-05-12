@@ -5,13 +5,27 @@
   left: 0;
   right: 0;
   z-index: 100;
-  color: #ccc;
+  color: #fff;
   background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   z-index: 99;
+  .play-area {
+    width: 100%;
+    flex: 0 0 auto;
+    z-index: 999;
+
+    &.show-lyrics-area {
+      position: relative;
+      height: 65%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
   .album-info-backImg {
     position: absolute;
     top: 0;
@@ -31,13 +45,15 @@
     color: #fff;
   }
   .play-song {
-    widows: 100%;
+    width: 100%;
     flex: 0 0 auto;
     z-index: 999;
     color: #fff;
   }
   .song-name {
     font-size: 16px;
+    line-height: 3;
+    text-align: center;
   }
   .song-singer {
     position: relative;
@@ -45,7 +61,7 @@
     text-align: center;
     .singers {
       display: inline-block;
-      max-width: 80%;
+      max-width: 75%;
       white-space: nowrap;
       overflow: hidden;
     }
@@ -100,6 +116,30 @@
 
       to {
           transform: rotate(360deg);
+      }
+    }
+  }
+  .lyrics-list-area {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    overflow: hidden;
+    .song-lyrics-list {
+      overflow: hidden;
+      line-height: 2;
+      font-size: 14px;
+      text-align: center;
+      &.transition {
+        transition: all 0.5s linear;
+      }
+
+      .song-lyrics-item {
+        &.current {
+          color: #2D8CF0;
+        }
       }
     }
   }

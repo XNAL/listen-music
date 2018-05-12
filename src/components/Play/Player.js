@@ -14,7 +14,8 @@ export default class Player extends Component {
       showSongList: false,
       isInit: true,
       showPlayer: false,
-      lyricsList: []
+      lyricsList: [],
+      showLyrics: true
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
@@ -289,31 +290,54 @@ export default class Player extends Component {
         { this.state.showPlayer && 
           <div className="play-component">
             <img className="album-info-backImg" src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="专辑图片" />
-            <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
-            <div className="play-song song-name">{currentSong.name}</div>
-            <div className="play-song song-singer">
-              <p className="singers">{currentSong.singer}</p>
+            <div className="play-area">
+              <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
+              <div className="song-name">{currentSong.name}</div>
             </div>
-            <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
-              <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
-            </div>
-            <div className="play-song song-lyrics">
-               <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
-                {
-                  this.state.lyricsList.map((val, index) => (
-                    <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
-                  ))
-                } 
-              </ul>
-            </div>
-            <div className="play-song song-progress">
-              <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
-              <div className="progress-bk" ref="progressRef" onClick={(e) => this.changePlayProgress(e)}>
-                <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
+            {
+              this.state.showLyrics && 
+              <div className="play-area show-lyrics-area">
+                  <div className="lyrics-list-area">
+                    <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 25 * lyricIndex}px)` }}>
+                      {
+                        this.state.lyricsList.map((val, index) => (
+                          <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                        ))
+                      } 
+                    </ul>
+                  </div>
               </div>
-              <p className="song-time total-time">{this.fomatSongTime(this.state.totalDuration)}</p>
+            }
+            {
+              !this.state.showLyrics && 
+              <div className="play-area show-lyrics-area">
+                <div className="play-song song-singer">
+                  <p className="singers">{currentSong.singer}</p>
+                </div>
+                <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
+                  <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
+                </div>
+                <div className="play-song song-lyrics">
+                  <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
+                    {
+                      this.state.lyricsList.map((val, index) => (
+                        <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                      ))
+                    } 
+                  </ul>
+                </div>
+              </div>
+            }
+            <div className="play-area">
+              <div className="play-song song-progress">
+                <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
+                <div className="progress-bk" ref="progressRef" onClick={(e) => this.changePlayProgress(e)}>
+                  <p className="progress-percent" style={{width: `${this.setMusicProgress(currentSong.currentDuration)}%`}}></p>
+                </div>
+                <p className="song-time total-time">{this.fomatSongTime(this.state.totalDuration)}</p>
+              </div>
             </div>
-            <div className="play-song operate-group">
+            <div className="play-area operate-group">
               <i className={'iconfont icon-' + iconMode} onClick={() => this.changePlayMode(playMode)} />
               <i className="iconfont icon-prev" onClick={() => this.playNextMusic(-1)} />
               {
