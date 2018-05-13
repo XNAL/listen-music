@@ -37,13 +37,6 @@
     filter: blur(65px);
     opacity: .6;
   }
-  .icon-collapse {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 20px;
-    color: #fff;
-  }
   .play-song {
     width: 100%;
     flex: 0 0 auto;
@@ -51,9 +44,23 @@
     color: #fff;
   }
   .song-name {
+    position: relative;
     font-size: 16px;
     line-height: 3;
     text-align: center;
+  }
+  .icon-collapse {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    font-size: 16px;
+    line-height: 1;
+    color: #fff;
+    transform: translateY(-50%);
+    transition: all 0.15s linear;
+    &.icon-lyrics {
+      transform: translateY(-50%) rotate(90deg);
+    }
   }
   .song-singer {
     position: relative;
@@ -210,6 +217,24 @@
       }
       &.icon-list {
         font-size: 20px;
+      }
+    }
+  }
+  .area-dot-list {
+    text-align: center;
+    .area-dot-item {
+      display: inline-block;
+      margin: 0 5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+      background: #fff;
+      transition: all 0.15s linear;
+  
+      &.current {
+        width: 16px;
+        height: 8px;
+        border-radius: 8px;
       }
     }
   }

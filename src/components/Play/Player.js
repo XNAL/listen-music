@@ -26,6 +26,7 @@ export default class Player extends Component {
     this.fomatSongTime = this.fomatSongTime.bind(this)
     this.songLyricIndex = this.songLyricIndex.bind(this)
     this.changePlayProgress = this.changePlayProgress.bind(this)
+    this.changeShowArea = this.changeShowArea.bind(this)
   }
 
   componentDidMount() {
@@ -203,9 +204,15 @@ export default class Player extends Component {
 
   // 隐藏播放器
   hidePlayer() {
-    this.setState({
-      showPlayer: false
-    })
+    if (this.state.showLyrics) {
+      this.setState({
+        showLyrics: false
+      })
+    } else {
+      this.setState({
+        showPlayer: false
+      })
+    }
   }
 
   // 显示播放器
@@ -235,17 +242,22 @@ export default class Player extends Component {
 
   // 获取歌词数组显示index
   songLyricIndex(currentDuration) {
+    let listIndex = 0
     let lyricsList = this.state.lyricsList
     for(let i = 0; i < lyricsList.length; i++) {
       let nextLyricTime = 0
       let nextIndex = i < lyricsList.length - 1 ? (i + 1) : i
       nextLyricTime = lyricsList[nextIndex][0]
+      listIndex = lyricsList[i][1] === '' ? listIndex : listIndex + 1
       if (i === lyricsList.length - 1 && currentDuration >= lyricsList[i][0]) {
-        return i
+        return {
+          lyricIndex: i,
+          listIndex: listIndex
+        }
       }
       else if (currentDuration >= lyricsList[i][0] && currentDuration <= nextLyricTime) {
         let index = lyricsList[i][1] === '' ? (i - 1) : i
-        return index
+        return { lyricIndex: index, listIndex: listIndex }
       }
     }
   }
@@ -267,6 +279,13 @@ export default class Player extends Component {
       }))
     }
   }
+
+  // 切换显示区域
+  changeShowArea(isShow) {
+    this.setState({
+      showLyrics: isShow
+    })
+  }
   
   render() {
     let currentSong = this.props.currentSong
@@ -283,7 +302,9 @@ export default class Player extends Component {
       default:
         iconMode = 'order'
     }
-    let lyricIndex = this.songLyricIndex(this.props.currentSong.currentDuration)
+    let songLyric = this.songLyricIndex(this.props.currentSong.currentDuration)
+    songLyric = songLyric ? songLyric : { lyricIndex: 0, listIndex: 0 }
+    let { lyricIndex, listIndex } = songLyric
     return (
       <div className="player">
         <audio ref="musicAudio" src={currentSong.url} />
@@ -291,14 +312,16 @@ export default class Player extends Component {
           <div className="play-component">
             <img className="album-info-backImg" src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="专辑图片" />
             <div className="play-area">
-              <i className="iconfont icon-collapse" onClick={this.hidePlayer} />
-              <div className="song-name">{currentSong.name}</div>
+              <div className="song-name">
+                <i className={"iconfont icon-collapse " + (this.state.showLyrics ? 'icon-lyrics' : '')} onClick={this.hidePlayer} />
+                {currentSong.name}
+              </div>
             </div>
             {
               this.state.showLyrics && 
               <div className="play-area show-lyrics-area">
                   <div className="lyrics-list-area">
-                    <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 25 * lyricIndex}px)` }}>
+                    <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 28 * listIndex}px)` }}>
                       {
                         this.state.lyricsList.map((val, index) => (
                           <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
@@ -328,6 +351,10 @@ export default class Player extends Component {
                 </div>
               </div>
             }
+            <div className="play-area area-dot-list">
+              <i className={"area-dot-item " + (!this.state.showLyrics ? 'current' : '')} onClick={() => this.changeShowArea(false)} />
+              <i className={"area-dot-item " + (this.state.showLyrics ? 'current' : '')} onClick={() => this.changeShowArea(true)} />
+            </div>
             <div className="play-area">
               <div className="play-song song-progress">
                 <p className="song-time current-time">{this.fomatSongTime(currentSong.currentDuration)}</p>
