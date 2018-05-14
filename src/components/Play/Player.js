@@ -36,27 +36,29 @@ export default class Player extends Component {
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () => {
       // 获取并处理歌词
-      fetch.getSongLyric(this.props.currentSong.songmid)
-        .then(res => {
-          let lyricData = res.data.data
-          let pattern = /\[\d{2}:\d{2}.\d{2}\]/g
-          let arrLyric = lyricData.split('\n')
-          let lyricsList = [];
-          while (!pattern.test(arrLyric[0])) {
-            arrLyric = arrLyric.slice(1);
-          }
-          for (let data of arrLyric) {
-            let index = data.indexOf(']')
-            let time = data.substring(0, index + 1)
-            let value = data.substring(index + 1)
-            let timeString = time.substring(1, time.length - 2)
-            let timeArr = timeString.split(':')
-            lyricsList.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value])
-          }
-          this.setState({
-            lyricsList: lyricsList
+      if (this.state.lyricsList.length === 0) {
+        fetch.getSongLyric(this.props.currentSong.songmid)
+          .then(res => {
+            let lyricData = res.data.data
+            let pattern = /\[\d{2}:\d{2}.\d{2}\]/g
+            let arrLyric = lyricData.split('\n')
+            let lyricsList = [];
+            while (!pattern.test(arrLyric[0])) {
+              arrLyric = arrLyric.slice(1);
+            }
+            for (let data of arrLyric) {
+              let index = data.indexOf(']')
+              let time = data.substring(0, index + 1)
+              let value = data.substring(index + 1)
+              let timeString = time.substring(1, time.length - 2)
+              let timeArr = timeString.split(':')
+              lyricsList.push([parseInt(timeArr[0], 10) * 60 + parseFloat(timeArr[1]), value])
+            }
+            this.setState({
+              lyricsList: lyricsList
+            })
           })
-        })
+      }
       // 歌曲初始化完成后获取当前歌曲的播放时间
       let currentDuration = this.props.currentSong.currentDuration || 0
       if (this.state.isInit) {
@@ -321,13 +323,20 @@ export default class Player extends Component {
               this.state.showLyrics && 
               <div className="play-area show-lyrics-area">
                   <div className="lyrics-list-area">
-                    <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 28 * listIndex}px)` }}>
-                      {
-                        this.state.lyricsList.map((val, index) => (
-                          <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
-                        ))
-                      } 
-                    </ul>
+                    {
+                      this.state.lyricsList.length > 0 &&
+                      <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 42 * listIndex}px)` }}>
+                        {
+                          this.state.lyricsList.map((val, index) => (
+                            <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                          ))
+                        } 
+                      </ul>
+                    }
+                    {
+                      this.state.lyricsList.length === 0 &&
+                      <div className="lyrics-list-empty">正在搜索歌词...</div>
+                    }
                   </div>
               </div>
             }
@@ -341,13 +350,20 @@ export default class Player extends Component {
                   <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
                 </div>
                 <div className="play-song song-lyrics">
-                  <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
-                    {
-                      this.state.lyricsList.map((val, index) => (
-                        <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
-                      ))
-                    } 
-                  </ul>
+                  {
+                    this.state.lyricsList.length > 0 &&
+                    <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
+                      {
+                        this.state.lyricsList.map((val, index) => (
+                          <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                        ))
+                      } 
+                    </ul>
+                  }
+                  {
+                    this.state.lyricsList.length === 0 &&
+                    <div className="lyrics-list-empty">正在搜索歌词...</div>
+                  }
                 </div>
               </div>
             }

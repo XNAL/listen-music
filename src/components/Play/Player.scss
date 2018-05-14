@@ -6,7 +6,7 @@
   right: 0;
   z-index: 100;
   color: #fff;
-  background: #fff;
+  background: #4f4f4f;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -136,7 +136,7 @@
     overflow: hidden;
     .song-lyrics-list {
       overflow: hidden;
-      line-height: 2;
+      line-height: 3;
       font-size: 14px;
       text-align: center;
       &.transition {
@@ -151,6 +151,7 @@
     }
   }
   .song-lyrics {
+    position: relative;
     height: 18px;
     overflow: hidden;
     line-height: 1.5;
@@ -198,6 +199,12 @@
         }
       }
     }
+  }
+  .lyrics-list-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   .operate-group {
     display: flex;
