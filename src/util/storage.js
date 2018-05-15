@@ -21,10 +21,10 @@ export default {
     return songList ? JSON.parse(songList) : []
   },
   setPlayMode (mode) {
-    window.sessionStorage.setItem('LM_PLAY_Mode', mode)
+    window.localStorage.setItem('LM_PLAY_Mode', mode)
   },
   getPlayMode () {
-    let mode = window.sessionStorage.getItem('LM_PLAY_Mode')
+    let mode = window.localStorage.getItem('LM_PLAY_Mode')
     return mode || 'ORDER'
   },
 }

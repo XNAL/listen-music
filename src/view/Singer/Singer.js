@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Singer.scss'
 import fetch from '../../fetch/index'
 import SingerCategory from '../../components/SingerCategory/SingerCategory'
+import singerDefault from '../../assets/singer_default.png'
 
 const singerTags = [
   { key: 'all_all', value: '全部' },
@@ -163,7 +164,7 @@ export default class Singer extends Component {
               <li className="singer-item" key={val.Fsinger_id}>
                 <Link to={`/SingerInfo/${val.Fsinger_id}`} className="singer-jump">
                   <div className="singer-img">
-                    <img src={`https://y.gtimg.cn/music/photo_new/T001R150x150M000${val.Fsinger_mid}.jpg?max_age=2592000)`} alt="排行榜图片" />
+                    <img src={`https://y.gtimg.cn/music/photo_new/T001R150x150M000${val.Fsinger_mid}.jpg?max_age=2592000`} onError={(e) => { e.target.src = singerDefault }} alt="pic" />
                   </div>
                   <p className="singer-name">{val.Fsinger_name}</p>
                 </Link>
