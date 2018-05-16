@@ -127,7 +127,7 @@ export default class SingerInfo extends Component {
 
   playAllSong() {
     let songList = []
-    for (let [index, song] of Object.entries(this.state.singerInfo.songlist)) {
+    for (let [index, song] of Object.entries(this.state.singerInfo.list)) {
       songList.push(Object.assign({}, {
         songid: song.musicData.songid,
         songmid: song.musicData.songmid,

@@ -1,0 +1,23 @@
+.search-input-container {
+  position: relative;
+  padding: 10px;
+  background: #f4f4f4;
+  box-sizing: border-box;
+
+  .icon-search {
+    position: absolute;
+    top: 24px;
+    left: 20px;
+    font-size: 16px;
+  }
+
+  .search-input {
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    font-size: 16px;
+    color: #999;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+  }
+}

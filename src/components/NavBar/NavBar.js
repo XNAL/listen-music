@@ -15,6 +15,9 @@ export default class NavBar extends Component {
         <li className="nav-bar-item">
           <NavLink to="/Rank" activeClassName="active">排行榜</NavLink>
         </li>
+        <li className="nav-bar-item">
+          <NavLink to="/Search" activeClassName="active">搜索</NavLink>
+        </li>
       </ul>
     )
   }
