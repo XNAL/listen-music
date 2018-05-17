@@ -73,7 +73,7 @@ export default class SongList extends Component {
           <ul className="songlist-list">
             {songList.map((val, index) => (
                 <li className={'songlist-item ' + (this.props.currentSong.songid === val.songid ? 'play' : '')} 
-                    key={val.songid} onClick={() => this.playSong(index)} >
+                    key={index} onClick={() => this.playSong(index)} >
                   <span className="songlist-item-song">{val.name}</span>
                   <span className="songlist-item-singer">&nbsp;-&nbsp;{val.singer}</span>
                   <i className="iconfont icon-delete" onClick={(e) => this.deleteSong(e, index)}/>

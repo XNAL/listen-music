@@ -18,7 +18,9 @@ export const JSONP_URL = {
   // 获取歌曲Vkey
   songVkey: 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg',
   // 获取歌词
-  songLyric: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+  songLyric: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+  // 热搜
+  hotKey: 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg'
 }
 
 export const JSONP_PARAMS = {

@@ -1,3 +1,11 @@
+.search-section {
+  position: absolute;
+  top: 82px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+}
 .search-input-container {
   position: relative;
   padding: 10px;
@@ -19,5 +27,25 @@
     box-sizing: border-box;
     border: none;
     border-radius: 4px;
+  }
+}
+.hot-key-container {
+  padding: 15px;
+  .hot-key-title {
+    margin-bottom: 10px;
+  }
+  .hot-key-item {
+    display: inline-block;
+    margin: 5px 15px 5px 0;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #222;
+    border: 1px solid #969696;
+    border-radius: 40px;
+
+    &.special {
+      color: #ea5436;
+      border: 1px solid #ea5436;
+    }
   }
 }

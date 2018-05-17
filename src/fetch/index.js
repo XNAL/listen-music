@@ -204,7 +204,7 @@ export default {
       from: 'h5',
       num: 15,
       begin: pageIndex,
-      _: 1525265978439
+      _: new Date().getTime()
     })
     return fetchJsonp(JSONP_URL.singerInfo, JSONP_OPTIONS, params)
   },
@@ -252,5 +252,17 @@ export default {
     })
     return fetchApi('/proxyApi/getSongLyric', params)
   },
+
+  getHotKey () {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 5381,
+      uin: 0,
+      notice: 0,
+      platform: 'h5',
+      needNewCode: 1,
+      _: new Date().getTime()
+    })
+    return fetchJsonp(JSONP_URL.hotKey, JSONP_OPTIONS, params)
+  }
 }
   
