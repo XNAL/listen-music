@@ -27,4 +27,11 @@ export default {
     let mode = window.localStorage.getItem('LM_PLAY_Mode')
     return mode || 'ORDER'
   },
+  setSearchHistory (sarchHistory) {
+    window.localStorage.setItem('LM_SEARCH_HISTORY', sarchHistory)
+  },
+  getSearchHistory () {
+    let sarchHistory = window.localStorage.getItem('LM_SEARCH_HISTORY')
+    return sarchHistory || []
+  },
 }
