@@ -253,6 +253,11 @@ export default {
     return fetchApi('/proxyApi/getSongLyric', params)
   },
 
+ /**
+   * @method 获取热搜
+   * @type jsonp
+   * @return json
+   */
   getHotKey () {
     let params = Object.assign({}, JSONP_PARAMS, {
       g_tk: 5381,
@@ -263,6 +268,35 @@ export default {
       _: new Date().getTime()
     })
     return fetchJsonp(JSONP_URL.hotKey, JSONP_OPTIONS, params)
+  },
+
+  /**
+    * @method 搜索
+    * @type jsonp
+    * @return json
+    */
+  searchByKey (key, page) {
+    let params = Object.assign({}, JSONP_PARAMS, {
+      g_tk: 5381,
+      uin: 0,
+      notice: 0,
+      platform: 'h5',
+      needNewCode: 1,
+      w: key,
+      zhidaqu: 1,
+      catZhida: 1,
+      t: 0,
+      flag: 1,
+      ie: 'utf-8',
+      sem: 1,
+      aggr: 0,
+      perpage: 20,
+      n: 20,
+      p: page,
+      remoteplace: 'txt.mqq.all',
+      _: new Date().getTime()
+    })
+    return fetchJsonp(JSONP_URL.search, JSONP_OPTIONS, params)
   }
 }
   

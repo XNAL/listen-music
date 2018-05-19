@@ -28,10 +28,10 @@ export default {
     return mode || 'ORDER'
   },
   setSearchHistory (sarchHistory) {
-    window.localStorage.setItem('LM_SEARCH_HISTORY', sarchHistory)
+    window.localStorage.setItem('LM_SEARCH_HISTORY', JSON.stringify(sarchHistory))
   },
   getSearchHistory () {
     let sarchHistory = window.localStorage.getItem('LM_SEARCH_HISTORY')
-    return sarchHistory || []
+    return sarchHistory ? JSON.parse(sarchHistory) : []
   },
 }

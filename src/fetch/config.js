@@ -20,7 +20,9 @@ export const JSONP_URL = {
   // 获取歌词
   songLyric: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
   // 热搜
-  hotKey: 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg'
+  hotKey: 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg',
+  // 搜索
+  search: 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
 }
 
 export const JSONP_PARAMS = {

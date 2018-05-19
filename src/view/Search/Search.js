@@ -16,6 +16,10 @@ export default class Search extends Component {
     }
     this.cancelInput = this.cancelInput.bind(this)
     this.inputOnFocus = this.inputOnFocus.bind(this)
+    this.handleSearchInput = this.handleSearchInput.bind(this)
+    this.search = this.search.bind(this)
+    this.deleteSearchHistory = this.deleteSearchHistory.bind(this)
+    this.clearSearchHistory = this.clearSearchHistory.bind(this)
   }
 
   componentDidMount() {
@@ -29,7 +33,7 @@ export default class Search extends Component {
       })
     
     this.setState({
-      searchHistory: storage.getSearchHistory()
+      searchHistory: storage.getSearchHistory() || []
     })
   }
 
@@ -39,6 +43,7 @@ export default class Search extends Component {
 
   cancelInput () {
     this.setState({
+      searchKey: '',
       focus: false
     })
   }
@@ -55,6 +60,51 @@ export default class Search extends Component {
     })
   }
 
+  search (e) {
+    if (e.key === 'Enter') {
+      let searchKey = this.state.searchKey
+      this.setState({
+        searchKey: ''
+      })
+      this.setSearchHistory(searchKey)
+      fetch.searchByKey(searchKey, this.state.page)
+        .then(res => {
+          console.log('res', res)
+        })
+    }
+  }
+
+  setSearchHistory (searchKey) {
+    let searchList = this.state.searchHistory
+    let index = searchList.findIndex((value) => {
+      return value === searchKey
+    })
+    if (index !== -1) {
+      searchList.splice(index, 1)
+    }
+    searchList.unshift(searchKey)
+    this.setState({
+      searchHistory: searchList
+    })
+    storage.setSearchHistory(searchList)
+  }
+
+  deleteSearchHistory (index) {
+    let searchList = this.state.searchHistory
+    searchList.splice(index, 1)
+    this.setState({
+      searchHistory: searchList
+    })
+    storage.setSearchHistory(searchList)
+  }
+
+  clearSearchHistory () {
+    this.setState({
+      searchHistory: []
+    })
+    storage.setSearchHistory([])
+  }
+
   render() {
     return (
       <section className="search-section">
@@ -62,10 +112,12 @@ export default class Search extends Component {
           <i className="iconfont icon-search" />
           <input ref="refInput" 
             type="text"
+            value={this.state.searchKey}
             onChange={this.handleSearchInput}
             className={"search-input " + (this.state.focus ? 'focus' : '')}
             placeholder="搜索歌曲、歌手、歌单、专辑"
-            onFocus={this.inputOnFocus} />
+            onFocus={this.inputOnFocus}
+            onKeyPress={this.search} />
           <span className={"cancel-text " + (this.state.focus ? 'show' : '')} onClick={this.cancelInput}>取消</span>
         </div>
         <div className="hot-key-container">
@@ -91,11 +143,15 @@ export default class Search extends Component {
                   <li className="search-history-item" key={index}>
                     <i className="iconfont icon-history" />
                     <span className="history-key">{key}</span>
-                    <i className="iconfont icon-delete" />
+                    <i className="iconfont icon-delete" onClick={(index) => this.deleteSearchHistory(index)}/>
                   </li>
                 ))
               }
             </ul>
+            {
+              this.state.searchHistory.length > 0 && 
+              <p className="clear-history" onClick={this.clearSearchHistory}>清除搜索记录</p>
+            }
           </div>
         }
       </section>
