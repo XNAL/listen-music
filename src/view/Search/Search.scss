@@ -12,17 +12,11 @@
   background: #f4f4f4;
   box-sizing: border-box;
 
-  .icon-search {
-    position: absolute;
-    top: 24px;
-    left: 20px;
-    font-size: 16px;
-  }
-
   .cancel-text {
     position: absolute;
     top: 10px;
     right: 15px;
+    color: #555;
     line-height: 40px;
     z-index: -1;
     &.show {
@@ -31,10 +25,10 @@
   }
 
   .search-input {
-    padding: 10px 10px 10px 30px;
+    padding: 10px 10px 10px 35px;
     width: 100%;
     font-size: 16px;
-    color: #999;
+    color: rgba(0,0,0,.3);
     box-sizing: border-box;
     border: none;
     border-radius: 4px;
@@ -43,6 +37,16 @@
       margin-right: 45px;
       width: calc(100% - 45px);
     }
+    &::placeholder {
+      color: rgba(0,0,0,.3);
+    }
+  }
+
+  .icon-search {
+    position: absolute;
+    top: 23px;
+    left: 20px;
+    font-size: 16px;
   }
 
 }
@@ -57,7 +61,7 @@
     padding: 10px 15px;
     font-size: 14px;
     color: #222;
-    border: 1px solid #969696;
+    border: 1px solid rgba(0,0,0,.6);
     border-radius: 40px;
 
     &.special {
@@ -79,7 +83,7 @@
     padding: 15px;
     font-size: 16px;
     line-height: 1;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e5e5e5;
     &:last-child {
       border-bottom: none;
     }
@@ -102,5 +106,65 @@
     text-align: center;
     font-size: 12px;
     color: #2D8CF0;
+  }
+}
+
+.search-reuslt-container {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999999999;
+  
+  .search-result-list {
+    background: #fff;
+    overflow-y: scroll;
+  }
+
+  .search-result-item {
+    position: relative;
+    padding: 10px 20px 10px 60px;
+    border-bottom: 1px solid #e5e5e5;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+
+      &.album-img {
+        border-radius: 0%;
+      }
+    }
+    .data-item {
+      color: #808080;
+      margin-right: 10px;
+    }
+    .icon-music {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: #ccc;
+    }
+    .search-result-item-name {
+      font-size: 16px;
+      color: #000;
+      margin-bottom: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .search-result-item-singer {
+      font-size: 14px;
+      color: #808080;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 }
