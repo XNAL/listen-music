@@ -1,11 +1,12 @@
 import {connect} from 'react-redux'
-import { setCurrentSong, setPlayStatus, setPlayMode } from '../redux/actions'
+import { setCurrentSong, setPlayStatus, setShowPlayer, setPlayMode } from '../redux/actions'
 import Player from '../components/Play/Player'
 
 // 映射Redux全局的state到组件的props上
 const mapStateToProps = (state) => ({
   currentSong: state.song,
   playStatus: state.playStatus,
+  showPlayer: state.showPlayer,
   songList: state.songList,
   playMode: state.playMode
 })
@@ -17,6 +18,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changePlayStatus: (status) => {
     dispatch(setPlayStatus(status))
+  },
+  setShowPlayer: (showPlayer) => {
+    dispatch(setShowPlayer(showPlayer))
   },
   playNextSong: (song) => {
     dispatch(setCurrentSong(song))

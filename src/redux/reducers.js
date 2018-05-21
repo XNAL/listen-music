@@ -5,6 +5,7 @@ import storage from '../util/storage'
 import {
   SET_CURRENT_SONG,
   SET_PLAY_STATUS,
+  SET_SHOW_PLAYER,
   SET_SONG_LIST,
   SET_PLAY_MODE
 } from './actionTypes'
@@ -12,7 +13,8 @@ import {
 // 初始化当前播放歌曲
 let initState = {
   song: storage.getCurrentSong(),
-  playStatus: storage.getPlayDsatus(),
+  showPlayer: storage.getShowPlayer(),
+  playStatus: storage.getPlayStatus(),
   songList: storage.getSongList(),
   playMode: storage.getPlayMode()
 }
@@ -32,10 +34,21 @@ function song(song = initState.song, action) {
 function playStatus(playStatus = initState.playStatus, action) {
   switch (action.type) {
     case SET_PLAY_STATUS:
-      storage.setPlayDsatus(action.status)
+      storage.setPlayStatus(action.status)
       return action.status
     default:
       return playStatus
+  }
+}
+
+// 设置播放器显示情况
+function showPlayer(showPlayer = initState.showPlayer, action) {
+  switch (action.type) {
+    case SET_SHOW_PLAYER:
+      storage.setShowPlayer(action.showPlayer)
+      return action.showPlayer
+    default:
+      return showPlayer
   }
 }
 
@@ -64,6 +77,7 @@ function playMode(playMode = initState.playMode, action) {
 export default combineReducers({
   song,
   playStatus,
+  showPlayer,
   songList,
   playMode
 })

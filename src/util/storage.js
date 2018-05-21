@@ -6,12 +6,19 @@ export default {
     let song = window.localStorage.getItem('LM_SONG')
     return song ? JSON.parse(song) : {}
   },
-  setPlayDsatus (status) {
+  setPlayStatus (status) {
     window.sessionStorage.setItem('LM_PLAY_STATUS', status)
   },
-  getPlayDsatus () {
+  getPlayStatus () {
     let status = window.sessionStorage.getItem('LM_PLAY_STATUS')
     return status || 0
+  },
+  setShowPlayer (showPlayer) {
+    window.sessionStorage.setItem('LM_SHOW_PLAYER', showPlayer)
+  },
+  getShowPlayer () {
+    let showPlayer = window.sessionStorage.getItem('LM_SHOW_PLAYER')
+    return showPlayer || false
   },
   setSongList (songList) {
     window.localStorage.setItem('LM_SONG_LIST', JSON.stringify(songList))

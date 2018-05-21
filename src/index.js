@@ -11,7 +11,7 @@ import Rank from './view/Rank/Rank'
 import RankInfo from './container/RankInfo'
 import Singer from './view/Singer/Singer'
 import SingerInfo from './container/SingerInfo'
-import Search from './view/Search/Search'
+import Search from './container/Search'
 import './styles/index.scss'
 
 import { Provider } from 'react-redux'

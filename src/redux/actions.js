@@ -1,6 +1,7 @@
 import { 
   SET_CURRENT_SONG,
   SET_PLAY_STATUS,
+  SET_SHOW_PLAYER,
   SET_SONG_LIST,
   SET_PLAY_MODE } from './actionTypes'
 
@@ -12,6 +13,11 @@ export function setCurrentSong (song) {
 // 设置当前歌曲播放状态
 export function setPlayStatus (status) {
   return { type: SET_PLAY_STATUS, status }
+}
+
+//设置播放器
+export function setShowPlayer (showPlayer) {
+  return { type: SET_SHOW_PLAYER, showPlayer }
 }
 
 // 设置歌曲列表

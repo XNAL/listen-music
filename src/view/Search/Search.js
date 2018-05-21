@@ -29,6 +29,7 @@ export default class Search extends Component {
     this.handleSinger = this.handleSinger.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
+    this.playMusic = this.playMusic.bind(this)
   }
 
   componentDidMount() {
@@ -179,6 +180,27 @@ export default class Search extends Component {
     return formatSingers.join(' / ')
   }
 
+  playMusic (song) {
+    fetch.getSongVkey(song.songmid)
+      .then(res => {
+        let url = `http://dl.stream.qqmusic.qq.com/C400${song.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+        let albumpic = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
+        let palySong = Object.assign({}, {
+          songmid: song.songmid,
+          songid: song.songid,
+          name: song.songname,
+          singer: this.handleSinger(song.singer),
+          url,
+          albumpic
+        })
+        this.props.playSong(palySong)
+        this.props.setPlayStatus(1)
+        this.props.setShowPlayer(true)
+        this.props.setSongList([palySong])
+        this.cancelInput()
+      })
+  }
+
   render() {
     let searchResultArray = []
     this.state.searchResult.forEach((result, index) => {
@@ -208,9 +230,8 @@ export default class Search extends Component {
           )
         }
       } else {
-        console.log(result)
         searchResultArray.push(
-          <li className="search-result-item" key={index}>
+          <li className="search-result-item" key={index} onClick={() => this.playMusic(result)}>
             <i className="iconfont icon-music" />
             <p className="search-result-item-name">{result.songname}</p>
             <p className="search-result-item-singer">{this.handleSinger(result.singer)}</p>

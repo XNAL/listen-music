@@ -13,7 +13,6 @@ export default class Player extends Component {
       totalDuration: 0,
       showSongList: false,
       isInit: true,
-      showPlayer: false,
       lyricsList: [],
       showLyrics: true
     }
@@ -21,7 +20,7 @@ export default class Player extends Component {
     this.showSongList = this.showSongList.bind(this)
     this.hideSongList = this.hideSongList.bind(this)
     this.hidePlayer = this.hidePlayer.bind(this)
-    this.showPlayer = this.showPlayer.bind(this)
+    this.handleShowPlayer = this.handleShowPlayer.bind(this)
     this.changePlayMode = this.changePlayMode.bind(this)
     this.fomatSongTime = this.fomatSongTime.bind(this)
     this.songLyricIndex = this.songLyricIndex.bind(this)
@@ -211,17 +210,13 @@ export default class Player extends Component {
         showLyrics: false
       })
     } else {
-      this.setState({
-        showPlayer: false
-      })
+      this.props.setShowPlayer(false)
     }
   }
 
   // 显示播放器
-  showPlayer() {
-    this.setState({
-      showPlayer: true
-    })
+  handleShowPlayer() {
+    this.props.setShowPlayer(true)
   }
 
   // 改变歌曲播放模式
@@ -292,6 +287,7 @@ export default class Player extends Component {
   render() {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus
+    let showPlayer = this.props.showPlayer
     let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     switch(playMode.toLowerCase()) {
@@ -310,7 +306,7 @@ export default class Player extends Component {
     return (
       <div className="player">
         <audio ref="musicAudio" src={currentSong.url} />
-        { this.state.showPlayer && 
+        { showPlayer && 
           <div className="play-component">
             <img className="album-info-backImg" src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="专辑图片" />
             <div className="play-area">
@@ -399,13 +395,13 @@ export default class Player extends Component {
         <SongList showSongList={this.state.showSongList}
           parentHideSongList={this.hideSongList}
         />
-        { !this.state.showPlayer && 
+        { !showPlayer && 
           <MiniPlay currentSong={currentSong} 
             totalDuration = {this.state.totalDuration}
             playStatus={playStatus}
             lyricsList={this.state.lyricsList}
             lyricIndex={lyricIndex}
-            parentShowPlayer={this.showPlayer}
+            parentShowPlayer={this.handleShowPlayer}
             parentPlayMusic={this.playMusic}
           /> 
         }
