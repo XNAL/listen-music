@@ -143,6 +143,10 @@
         transition: all 0.5s linear;
       }
 
+      &.no-transition {
+        transition: all 0s linear;
+      }
+
       .song-lyrics-item {
         &.current {
           color: #2D8CF0;

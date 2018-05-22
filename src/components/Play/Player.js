@@ -14,7 +14,8 @@ export default class Player extends Component {
       showSongList: false,
       isInit: true,
       lyricsList: [],
-      showLyrics: true
+      showLyrics: false,
+      currentSongmid: ''
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
@@ -34,8 +35,15 @@ export default class Player extends Component {
 
     // 添加事件监听，当准备好音频时再获取时长
     this.refs.musicAudio.addEventListener("canplay", () => {
+      let isNewSong = false
+      if (this.state.currentSongmid !== this.props.currentSong.songmid) {
+        isNewSong = true
+        this.setState({
+          currentSongmid: this.props.currentSong.songmid
+        })
+      }
       // 获取并处理歌词
-      if (this.state.lyricsList.length === 0) {
+      if (isNewSong || this.state.lyricsList.length === 0) {
         fetch.getSongLyric(this.props.currentSong.songmid)
           .then(res => {
             let lyricData = res.data.data
@@ -68,7 +76,7 @@ export default class Player extends Component {
       }
       if (this.props.playStatus == 1) {
         this.refs.musicAudio.play()
-        this.setMusicPlayDuration()
+        this.setMusicPlayDuration(1)
         this.setState({
           totalDuration: this.musicAllTime()
         })
@@ -79,13 +87,17 @@ export default class Player extends Component {
       }
     })
     this.refs.musicAudio.addEventListener("ended", () => {
-      this.setState({
-        lyricsList: []
-      })
       // 只有一首歌曲或者单曲循环时
       if (this.props.songList.length === 1 || this.props.playMode === 'SINGLE') {
+        this.setState({
+          lyricIndex: -1
+        })
         this.refs.musicAudio.play()
       } else {
+        this.setState({
+          lyricsList: [],
+          lyricIndex: -1
+        })
         let playIndex = 0
         // 随机播放
         if (this.props.playMode === 'RANDOM') {
@@ -113,12 +125,12 @@ export default class Player extends Component {
   playMusic() {
     if (this.props.playStatus == 0) {
       this.refs.musicAudio.play()
-      this.setMusicPlayDuration()
       this.props.changePlayStatus(1)
+      this.setMusicPlayDuration(1)
     } else {
       this.refs.musicAudio.pause()
-      this.setMusicPlayDuration()
       this.props.changePlayStatus(0)
+      this.setMusicPlayDuration(0)
     }
   }
 
@@ -149,24 +161,18 @@ export default class Player extends Component {
   }
 
   // 设置定时器处理音乐播放时间
-  setMusicPlayDuration() {
-    if (this.state.timer && this.props.playStatus == 0) {
+  setMusicPlayDuration(playStatus) {
+    if (this.timer && playStatus == 0) {
       // 清除定时器
-      clearInterval(this.state.timer)
-      this.setState({
-        timer: null
-      })
+      clearInterval(this.timer)
     } else {
       // 设定定时器，根据播放时间调整播放进度
-      let timer = setInterval(() => {
+      this.timer = setInterval(() => {
         let currentTime = this.musicCurrentTime()
         this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
           currentDuration: currentTime
         }))
       }, 500)
-      this.setState({
-        timer: timer
-      })
     }
   }
 
@@ -185,7 +191,7 @@ export default class Player extends Component {
     if (this.state.totalDuration === 0) {
       return 0
     } else {
-      return Math.floor(duration / this.state.totalDuration * 100)
+      return (duration / this.state.totalDuration * 100).toFixed(2)
     }
   }
 
@@ -286,8 +292,8 @@ export default class Player extends Component {
   
   render() {
     let currentSong = this.props.currentSong
-    let playStatus = this.props.playStatus
-    let showPlayer = this.props.showPlayer
+    let playStatus = this.props.playStatus || 0
+    let showPlayer = this.props.showPlayer == true
     let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     switch(playMode.toLowerCase()) {
@@ -321,7 +327,7 @@ export default class Player extends Component {
                   <div className="lyrics-list-area">
                     {
                       this.state.lyricsList.length > 0 &&
-                      <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ 300 - 42 * listIndex}px)` }}>
+                      <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '') + (lyricIndex < 0 ? ' no-transition' : '')} style={{transform: `translateY(${ 300 - 42 * listIndex}px)` }}>
                         {
                           this.state.lyricsList.map((val, index) => (
                             <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
