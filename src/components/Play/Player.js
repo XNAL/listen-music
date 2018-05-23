@@ -86,6 +86,7 @@ export default class Player extends Component {
         })
       }
     })
+    // 播放完成事件
     this.refs.musicAudio.addEventListener("ended", () => {
       // 只有一首歌曲或者单曲循环时
       if (this.props.songList.length === 1 || this.props.playMode === 'SINGLE') {
@@ -118,6 +119,35 @@ export default class Player extends Component {
         }
         this.props.playNextSong(this.props.songList[playIndex])
       }
+    })
+    // 音频加载失败事件(歌曲vkey过期重新获取vkey)
+    this.refs.musicAudio.addEventListener("error", () => {
+      let currentSong = this.props.currentSong
+      fetch.getSongVkey(currentSong.songmid)
+        .then(res => {
+          let url = `http://dl.stream.qqmusic.qq.com/C400${currentSong.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+          let playSong = Object.assign({}, {
+            songmid: currentSong.songmid,
+            songid: currentSong.songid,
+            name: currentSong.name,
+            singer: currentSong.singer,
+            albumpic: currentSong.albumpic,
+            url
+          })
+          this.props.playNextSong(playSong)
+          let songList = this.props.songList
+          let playIndex = -1
+          for(let [index, song] of songList.entries()) {
+            if (song.songid === currentSong.songid) {
+              playIndex = index
+              break
+            }
+          }
+          if (playIndex !== -1) {
+            songList.splice(playIndex, 1, playSong)
+            this.props.setSongList(songList)
+          }
+        })
     })
   }
 

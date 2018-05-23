@@ -52,6 +52,7 @@ export default class Search extends Component {
     window.removeEventListener('scroll', this.handleScroll)
   }
 
+  // 滚动事件
   handleScroll (event) {
     let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
     if (this.refs.resultRef) {
@@ -69,6 +70,7 @@ export default class Search extends Component {
     }
   }
   
+  // 调用接口搜索
   fetchSearch () {
     fetch.searchByKey(this.state.searchKey, this.state.page)
       .then(res => {
@@ -94,6 +96,7 @@ export default class Search extends Component {
       })
   }
 
+  // 响应Enter进行搜索
   search (e) {
     if (e.key === 'Enter') {
       this.setSearchHistory()
@@ -105,6 +108,7 @@ export default class Search extends Component {
     }
   }
 
+  // 取消搜索
   cancelInput () {
     this.setState({
       searchResult: [],
@@ -113,18 +117,21 @@ export default class Search extends Component {
     })
   }
 
+  // 搜索框onFocus事件
   inputOnFocus () {
     this.setState({
       focus: true
     })
   }
 
+  // 搜索框onChange事件赋值
   handleSearchInput (e) {
     this.setState({
       searchKey: e.target.value
     })
   }
 
+  // 设置搜索历史（已存在的搜索词，提升到第一位）
   setSearchHistory () {
     let searchKey = this.state.searchKey
     let searchList = this.state.searchHistory
@@ -141,6 +148,7 @@ export default class Search extends Component {
     storage.setSearchHistory(searchList)
   }
 
+  // 点击热搜关键词搜索
   handleClickSearch (keyword) {
     this.setState({
       searchResult: [],
@@ -154,6 +162,7 @@ export default class Search extends Component {
     })
   }
 
+  // 删除单个历史搜索记录
   deleteSearchHistory (e, index) {
     e.stopPropagation()
     let searchList = this.state.searchHistory
@@ -164,6 +173,7 @@ export default class Search extends Component {
     storage.setSearchHistory(searchList)
   }
 
+  // 清空历史搜索记录
   clearSearchHistory () {
     this.setState({
       searchHistory: []
@@ -180,6 +190,7 @@ export default class Search extends Component {
     return formatSingers.join(' / ')
   }
 
+  // 播放歌曲
   playMusic (song) {
     fetch.getSongVkey(song.songmid)
       .then(res => {

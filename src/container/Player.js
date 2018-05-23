@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { setCurrentSong, setPlayStatus, setShowPlayer, setPlayMode } from '../redux/actions'
+import { setCurrentSong, setPlayStatus, setShowPlayer, setPlayMode, setSongList } from '../redux/actions'
 import Player from '../components/Play/Player'
 
 // 映射Redux全局的state到组件的props上
@@ -27,6 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setPlayMode: (playMode) => {
     dispatch(setPlayMode(playMode))
+  },
+  setSongList: (songList) => {
+    dispatch(setSongList(songList))
   }
 })
 
