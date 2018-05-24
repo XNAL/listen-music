@@ -4,6 +4,7 @@ import './Singer.scss'
 import fetch from '../../fetch/index'
 import SingerCategory from '../../components/SingerCategory/SingerCategory'
 import singerDefault from '../../assets/singer_default.png'
+import Loading from '../../components/Loading/Loading'
 
 const singerTags = [
   { key: 'all_all', value: '全部' },
@@ -79,7 +80,11 @@ export default class Singer extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
-    this.fetchSinger()
+    this.setState({
+      isLoading: true,
+    }, () => {
+      this.fetchSinger()
+    })
   }
 
   componentWillUnmount () {
@@ -172,6 +177,12 @@ export default class Singer extends Component {
             ))
           }
         </ul>
+        {
+          this.state.isLoading &&
+          <div className="list-loading">
+            <Loading />
+          </div>
+        }
       </section>
     )
   }

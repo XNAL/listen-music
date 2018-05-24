@@ -115,7 +115,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999999999;
+  z-index: 999999;
+  background: #fff;
   
   .search-result-list {
     background: #fff;
@@ -166,5 +167,10 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+  }
+  .result-loading {
+    z-index: 999999;
+    padding: 10px 0;
+    background: #fff;
   }
 }

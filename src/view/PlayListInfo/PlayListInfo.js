@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './PlayListInfo.scss'
 import fetch from '../../fetch/index'
+import Loading from '../../components/Loading/Loading'
 
 export default class PlayListInfo extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ export default class PlayListInfo extends Component {
       id: 0,
       playListInfo: null,
       pageIndex: 0,
-      isNoMore: false
+      isNoMore: false,
+      isLoading: false
     }
     this.handleScroll = this.handleScroll.bind(this)
     this.loadMore = this.loadMore.bind(this)
@@ -21,9 +23,10 @@ export default class PlayListInfo extends Component {
     window.addEventListener('scroll', this.handleScroll);
     
     this.setState({
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
+      isLoading: true
     }, () => {
-      this.loadMore()
+      this.fetchSongs()
     })
   }
 
@@ -32,6 +35,14 @@ export default class PlayListInfo extends Component {
   }
 
   loadMore () {
+    this.setState({
+      isLoading: true
+    }, () => {
+      this.fetchSongs()
+    })
+  }
+
+  fetchSongs () {
     fetch.getPlayListInfo(this.state.id, this.state.pageIndex)
       .then(async res => {
         let cdlist = res.data.data.cdlist[0]
@@ -59,6 +70,7 @@ export default class PlayListInfo extends Component {
         this.setState({
           playListInfo: cdlist,
           isNoMore: isNoMore,
+          isLoading: false,
           pageIndex: cdlist.songlist.length
         })
       })
@@ -179,8 +191,14 @@ export default class PlayListInfo extends Component {
                   ))
                 } 
               </ul>
-              { !this.state.isNoMore &&
+              { !this.state.isNoMore && !this.state.isLoading &&
                 <p className="load-more" onClick={this.loadMore}>点击加载更多歌曲</p>
+              }
+              {
+                this.state.isLoading && 
+                <div className="loading-song">
+                  <Loading />
+                </div>
               }
             </section>
             {

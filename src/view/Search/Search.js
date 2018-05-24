@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Search.scss'
 import fetch from '../../fetch/index'
 import storage from '../../util/storage'
+import Loading from '../../components/Loading/Loading'
 
 export default class Search extends Component {
   constructor(props) {
@@ -101,6 +102,7 @@ export default class Search extends Component {
     if (e.key === 'Enter') {
       this.setSearchHistory()
       this.setState({
+        isLoading: true,
         page: 1
       }, () => {
         this.fetchSearch()
@@ -299,12 +301,18 @@ export default class Search extends Component {
           </div>
         }
         {
-          this.state.focus && this.state.searchResult.length > 0 &&
+          this.state.focus && (this.state.isLoading || this.state.searchResult.length > 0) &&
           <div className="search-reuslt-container">
             <ul className="search-result-list" ref="resultRef">
               { searchResultArray }
             </ul>
-        </div>
+            {
+              this.state.isLoading && 
+              <div className="result-loading">
+                <Loading />
+              </div>
+            }
+          </div>
         }
       </section>
     )
