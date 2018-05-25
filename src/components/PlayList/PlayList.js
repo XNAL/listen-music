@@ -23,7 +23,9 @@ export default class PlayList extends Component {
   render() {
     return (
       <div className="playlist-component">
-        <h2 className="playlist-title">推荐歌单</h2>
+        { this.state.playList.length > 0 && 
+          <h2 className="playlist-title">推荐歌单</h2>
+        }
         <ul className="playlist-list">
           {this.state.playList.map(val => (
               <li className="playlist-item" key={val.content_id} >

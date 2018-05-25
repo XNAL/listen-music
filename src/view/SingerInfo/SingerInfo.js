@@ -81,13 +81,15 @@ export default class SingerInfo extends Component {
   }
 
   handleScroll (event) {
-    let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
-    if (scrollTop >= 144) {
-      this.refs.infoBoxRef.style.position = 'fixed'
-      this.refs.infoBoxRef.style.top = '-144px'
-    } else {
-      this.refs.infoBoxRef.style.position = 'relative'
-      this.refs.infoBoxRef.style.top = '0'
+    if (this.refs.infoBoxRef) {
+      let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
+      if (scrollTop >= 144) {
+        this.refs.infoBoxRef.style.position = 'fixed'
+        this.refs.infoBoxRef.style.top = '-144px'
+      } else {
+        this.refs.infoBoxRef.style.position = 'relative'
+        this.refs.infoBoxRef.style.top = '0'
+      }
     }
   }
 
@@ -192,7 +194,7 @@ export default class SingerInfo extends Component {
               </div>
             </section>
             <section className="singer-song-list-section">
-              <p className="singer-song-list-title">排行榜<span className="song-num">共{this.state.singerInfo.total}首</span></p>
+              <p className="singer-song-list-title">歌曲<span className="song-num">共{this.state.singerInfo.total}首</span></p>
               <ul className="singer-song-list">
                 {
                   this.state.singerInfo.list.map((val, index) => (

@@ -43,13 +43,15 @@ export default class AlbumInfo extends Component {
   }
 
   handleScroll (event) {
-    let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
-    if (scrollTop >= 144) {
-      this.refs.infoBoxRef.style.position = 'fixed'
-      this.refs.infoBoxRef.style.top = '-144px'
-    } else {
-      this.refs.infoBoxRef.style.position = 'relative'
-      this.refs.infoBoxRef.style.top = '0'
+    if (this.refs.infoBoxRef) {
+      let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
+      if (scrollTop >= 144) {
+        this.refs.infoBoxRef.style.position = 'fixed'
+        this.refs.infoBoxRef.style.top = '-144px'
+      } else {
+        this.refs.infoBoxRef.style.position = 'relative'
+        this.refs.infoBoxRef.style.top = '0'
+      }
     }
   }
 

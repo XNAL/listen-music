@@ -93,16 +93,18 @@ export default class Singer extends Component {
 
   handleScroll (event) {
     let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
-    let listHeight = this.refs.infoBoxRef.clientHeight
-    if ((listHeight - this.state.viewPortHeight - scrollTop <= 100) && !this.state.isEnd && !this.state.isLoading) {
-      let pageNum = this.state.pageNum
-      pageNum ++
-      this.setState({
-        isLoading: true,
-        pageNum: pageNum
-      }, () => {
-        this.fetchSinger()
-      })
+    if (this.refs.infoBoxRef) {
+      let listHeight = this.refs.infoBoxRef.clientHeight
+      if ((listHeight - this.state.viewPortHeight - scrollTop <= 100) && !this.state.isEnd && !this.state.isLoading) {
+        let pageNum = this.state.pageNum
+        pageNum ++
+        this.setState({
+          isLoading: true,
+          pageNum: pageNum
+        }, () => {
+          this.fetchSinger()
+        })
+      }
     }
   }
 

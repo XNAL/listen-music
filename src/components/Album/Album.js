@@ -27,7 +27,10 @@ export default class Album extends Component {
   render() {
     return (
       <div className="album-component">
-        <h2 className="album-title">最新专辑</h2>
+        {
+          this.state.albumList.length > 0 &&
+          <h2 className="album-title">最新专辑</h2>
+        }
         <ul className="album-list">
           {this.state.albumList.map(val => (
             <li className="album-item" key={val.album_id} >
