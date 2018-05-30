@@ -78,12 +78,14 @@ export default class PlayListInfo extends Component {
 
   handleScroll (event) {
     let scrollTop = document.body.scrollTop | document.documentElement.scrollTop
-    if (scrollTop >= 144) {
-      this.refs.infoBoxRef.style.position = 'fixed'
-      this.refs.infoBoxRef.style.top = '-144px'
-    } else {
-      this.refs.infoBoxRef.style.position = 'relative'
-      this.refs.infoBoxRef.style.top = '0'
+    if (this.refs.infoBoxRef) {
+      if (scrollTop >= 144) {
+        this.refs.infoBoxRef.style.position = 'fixed'
+        this.refs.infoBoxRef.style.top = '-144px'
+      } else {
+        this.refs.infoBoxRef.style.position = 'relative'
+        this.refs.infoBoxRef.style.top = '0'
+      }
     }
   }
 
@@ -159,7 +161,7 @@ export default class PlayListInfo extends Component {
             <section className="playList-info-box" ref="infoBoxRef">
               <section className="playList-info-section">
                 <div className="playList-info-cover">
-                  <img src={`https://y.gtimg.cn/music/photo_new/T006R300x300M000${this.state.playListInfo.pic_mid}.jpg?max_age=2592000`} alt="专辑图片" />
+                  <img src={this.state.playListInfo.logo} alt="专辑图片" />
                 </div>
                 <div className="playList-info-name-author">
                   <h1 className="playList-info-name">{this.state.playListInfo.dissname}</h1>
