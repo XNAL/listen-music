@@ -12,7 +12,7 @@
 
 2. 手机扫码直接访问
 
-   ![二维码](http://p508dzzc2.bkt.clouddn.com/listen-music/listen-music-qrcode.png)
+   ![二维码](https://github.com/XNAL/listen-music/blob/master/screenshorts/qrcode.png)
 
 ## 技术栈
 
@@ -40,40 +40,50 @@ npm start
 
 1. 推荐
 
-   ![推荐](http://p508dzzc2.bkt.clouddn.com/listen-music/index.png)
+   ![推荐](https://github.com/XNAL/listen-music/blob/master/screenshorts/index.png)
 
    
 
 2. 歌手
 
-   ![歌手](http://p508dzzc2.bkt.clouddn.com/listen-music/singers.png)
+   ![歌手](https://github.com/XNAL/listen-music/blob/master/screenshorts/singer.png)
 
    
 
 3. 歌手详情
 
-   ![歌手详情](http://p508dzzc2.bkt.clouddn.com/listen-music/singer-info.png)
+   ![歌手详情](https://github.com/XNAL/listen-music/blob/master/screenshorts/singer-info.png)
 
    
 
 4. 排行榜
 
-   ![排行榜](http://p508dzzc2.bkt.clouddn.com/listen-music/rank.png)
+   ![排行榜](https://github.com/XNAL/listen-music/blob/master/screenshorts/rank.png)
 
    
 
 5. 排行榜详情
 
-   ![排行榜详情](http://p508dzzc2.bkt.clouddn.com/listen-music/rank-info.png)
+   ![排行榜详情](https://github.com/XNAL/listen-music/blob/master/screenshorts/rank-info.png)
 
    
 
 6. 搜索
 
-   ![搜索](http://p508dzzc2.bkt.clouddn.com/listen-music/search.png)
+   ![搜索](https://github.com/XNAL/listen-music/blob/master/screenshorts/search.png)
 
    
 
 7. 搜索结果
 
-   ![搜索结果](http://p508dzzc2.bkt.clouddn.com/listen-music/search-result.png)
+   ![搜索结果](https://github.com/XNAL/listen-music/blob/master/screenshorts/search-result.png)
+
+
+8. 播放页面
+
+   ![搜索结果](https://github.com/XNAL/listen-music/blob/master/screenshorts/play.png)
+
+
+9. 歌词页面
+
+   ![搜索结果](https://github.com/XNAL/listen-music/blob/master/screenshorts/play-lyrics.png)
