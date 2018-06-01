@@ -157,6 +157,13 @@ export default class Player extends Component {
     })
   }
 
+  componentDidUpdate () {
+    if (this.refs.lyricsWrapRef) {
+      this.refs.lyricsWrapRef.addEventListener('touchstart', this.handleTouchStart)
+      this.refs.lyricsWrapRef.addEventListener('touchmove', this.handleTouchMove)
+    }
+  }
+
   // 播放/暂停音乐
   playMusic() {
     if (this.props.playStatus == 0) {
@@ -261,21 +268,8 @@ export default class Player extends Component {
     this.props.setShowPlayer(true)
   }
 
-  handleTouchListener (isAdd) {
-    console.log('isAdd', isAdd, this.refs.lyricsWrapRef)
-    if (this.refs.lyricsWrapRef) {
-      if (isAdd) {
-        this.refs.lyricsWrapRef.addEventListener('touchstart', this.handleTouchStart)
-        this.refs.lyricsWrapRef.addEventListener('touchmove', this.handleTouchMove)
-      } else {
-        this.refs.lyricsWrapRef.removeEventListener('touchstart', this.handleTouchStart)
-        this.refs.lyricsWrapRef.removeEventListener('touchmove', this.handleTouchMove)
-      }
-    }
-  }
-
+  // 处理touchstart事件
   handleTouchStart (e) {
-    console.log('touchstart', e)
     e.preventDefault()
     this.setState({
       startX: e.changedTouches[0].pageX,
@@ -283,19 +277,27 @@ export default class Player extends Component {
     })
   }
 
+  // 处理touchmove事件
   handleTouchMove (e) {
     e.preventDefault()
     let endX = e.changedTouches[0].pageX
     let endY = e.changedTouches[0].pageY
-    if (endX - this.state.startX < -30 && this.state.showLyrics) {
-      this.setState({
-        showLyrics: false
-      })
-    }
-    if (endX - this.state.startX > 30 && !this.state.showLyrics) {
-      this.setState({
-        showLyrics: true
-      })
+    // 向下移动超过50px，则隐藏播放器
+    if (endY - this.state.startY > 50) {
+      this.props.setShowPlayer(false)
+    } else {
+      // 隐藏歌词
+      if (endX - this.state.startX > 50 && this.state.showLyrics) {
+        this.setState({
+          showLyrics: false
+        })
+      }
+      // 显示歌词
+      if (endX - this.state.startX < -50 && !this.state.showLyrics) {
+        this.setState({
+          showLyrics: true
+        })
+      }
     }
   }
 
@@ -372,7 +374,7 @@ export default class Player extends Component {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus || 0
     let showPlayer = this.props.showPlayer == true
-    this.handleTouchListener(showPlayer)
+    // this.handleTouchListener(showPlayer)
     let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     switch(playMode.toLowerCase()) {
