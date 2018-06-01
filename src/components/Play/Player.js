@@ -15,7 +15,11 @@ export default class Player extends Component {
       isInit: true,
       lyricsList: [],
       showLyrics: false,
-      currentSongmid: ''
+      currentSongmid: '',
+      startX: 0,
+      startY: 0,
+      endX: 0,
+      endY: 0
     }
     this.playMusic = this.playMusic.bind(this)
     this.showSongList = this.showSongList.bind(this)
@@ -27,6 +31,8 @@ export default class Player extends Component {
     this.songLyricIndex = this.songLyricIndex.bind(this)
     this.changePlayProgress = this.changePlayProgress.bind(this)
     this.changeShowArea = this.changeShowArea.bind(this)
+    this.handleTouchStart = this.handleTouchStart.bind(this)
+    this.handleTouchMove = this.handleTouchMove.bind(this)
   }
 
   componentDidMount() {
@@ -255,6 +261,44 @@ export default class Player extends Component {
     this.props.setShowPlayer(true)
   }
 
+  handleTouchListener (isAdd) {
+    console.log('isAdd', isAdd, this.refs.lyricsWrapRef)
+    if (this.refs.lyricsWrapRef) {
+      if (isAdd) {
+        this.refs.lyricsWrapRef.addEventListener('touchstart', this.handleTouchStart)
+        this.refs.lyricsWrapRef.addEventListener('touchmove', this.handleTouchMove)
+      } else {
+        this.refs.lyricsWrapRef.removeEventListener('touchstart', this.handleTouchStart)
+        this.refs.lyricsWrapRef.removeEventListener('touchmove', this.handleTouchMove)
+      }
+    }
+  }
+
+  handleTouchStart (e) {
+    console.log('touchstart', e)
+    e.preventDefault()
+    this.setState({
+      startX: e.changedTouches[0].pageX,
+      startY: e.changedTouches[0].pageY
+    })
+  }
+
+  handleTouchMove (e) {
+    e.preventDefault()
+    let endX = e.changedTouches[0].pageX
+    let endY = e.changedTouches[0].pageY
+    if (endX - this.state.startX < -30 && this.state.showLyrics) {
+      this.setState({
+        showLyrics: false
+      })
+    }
+    if (endX - this.state.startX > 30 && !this.state.showLyrics) {
+      this.setState({
+        showLyrics: true
+      })
+    }
+  }
+
   // 改变歌曲播放模式
   changePlayMode(playMode) {
     let nextMode = 'ORDER'
@@ -268,9 +312,13 @@ export default class Player extends Component {
 
   // 格式化歌曲时间
   fomatSongTime(time) {
-    let minutes = Math.floor(time / 60)
-    let seconds = Math.floor(time % 60)
-    return `${minutes < 10 ? ('0' + minutes) : minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
+    if (time) {
+      let minutes = Math.floor(time / 60)
+      let seconds = Math.floor(time % 60)
+      return `${minutes < 10 ? ('0' + minutes) : minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
+    } else {
+      return '00:00'
+    }
   }
 
   // 获取歌词数组显示index
@@ -324,6 +372,7 @@ export default class Player extends Component {
     let currentSong = this.props.currentSong
     let playStatus = this.props.playStatus || 0
     let showPlayer = this.props.showPlayer == true
+    this.handleTouchListener(showPlayer)
     let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     switch(playMode.toLowerCase()) {
@@ -351,13 +400,41 @@ export default class Player extends Component {
                 {currentSong.name}
               </div>
             </div>
-            {
-              this.state.showLyrics && 
-              <div className="play-area show-lyrics-area">
-                  <div className="lyrics-list-area">
+            <div className="play-area show-lyrics-area-wrap" ref="lyricsWrapRef">
+              {
+                this.state.showLyrics && 
+                <div className="show-lyrics-area">
+                    <div className="lyrics-list-area">
+                      {
+                        this.state.lyricsList.length > 0 &&
+                        <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '') + (lyricIndex < 0 ? ' no-transition' : '')} style={{transform: `translateY(${ 300 - 42 * listIndex}px)` }}>
+                          {
+                            this.state.lyricsList.map((val, index) => (
+                              <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                            ))
+                          } 
+                        </ul>
+                      }
+                      {
+                        this.state.lyricsList.length === 0 &&
+                        <div className="lyrics-list-empty">正在搜索歌词...</div>
+                      }
+                    </div>
+                </div>
+              }
+              {
+                !this.state.showLyrics && 
+                <div className="show-lyrics-area">
+                  <div className="play-song song-singer">
+                    <p className="singers">{currentSong.singer}</p>
+                  </div>
+                  <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
+                    <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
+                  </div>
+                  <div className="play-song song-lyrics">
                     {
                       this.state.lyricsList.length > 0 &&
-                      <ul className={"song-lyrics-list " + (listIndex > 0 ? 'transition' : '') + (lyricIndex < 0 ? ' no-transition' : '')} style={{transform: `translateY(${ 300 - 42 * listIndex}px)` }}>
+                      <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
                         {
                           this.state.lyricsList.map((val, index) => (
                             <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
@@ -370,35 +447,9 @@ export default class Player extends Component {
                       <div className="lyrics-list-empty">正在搜索歌词...</div>
                     }
                   </div>
-              </div>
-            }
-            {
-              !this.state.showLyrics && 
-              <div className="play-area show-lyrics-area">
-                <div className="play-song song-singer">
-                  <p className="singers">{currentSong.singer}</p>
                 </div>
-                <div className={'play-song song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
-                  <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
-                </div>
-                <div className="play-song song-lyrics">
-                  {
-                    this.state.lyricsList.length > 0 &&
-                    <ul className={"song-lyrics-list " + (lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * lyricIndex}px)` }}>
-                      {
-                        this.state.lyricsList.map((val, index) => (
-                          <li className={"song-lyrics-item " + (lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
-                        ))
-                      } 
-                    </ul>
-                  }
-                  {
-                    this.state.lyricsList.length === 0 &&
-                    <div className="lyrics-list-empty">正在搜索歌词...</div>
-                  }
-                </div>
-              </div>
-            }
+              }
+            </div>
             <div className="play-area area-dot-list">
               <i className={"area-dot-item " + (!this.state.showLyrics ? 'current' : '')} onClick={() => this.changeShowArea(false)} />
               <i className={"area-dot-item " + (this.state.showLyrics ? 'current' : '')} onClick={() => this.changeShowArea(true)} />
