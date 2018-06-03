@@ -179,28 +179,35 @@ export default class Player extends Component {
 
   // 上一首/下一首
   playNextMusic(next) {
-    let playIndex = 0
-    // 随机播放
-    if (this.props.playMode === 'RANDOM') {
-      playIndex = Math.floor(Math.random() * this.props.songList.length)
+    if (this.props.songList.length === 1) {
+      this.refs.musicAudio.currentTime = 0
+      this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+        currentDuration: 0
+      }))
     } else {
-      for(let [index, song] of this.props.songList.entries()) {
-        if (song.songid === this.props.currentSong.songid) {
-          playIndex = index
-          break
+      let playIndex = 0
+      // 随机播放
+      if (this.props.playMode === 'RANDOM') {
+        playIndex = Math.floor(Math.random() * this.props.songList.length)
+      } else {
+        for(let [index, song] of this.props.songList.entries()) {
+          if (song.songid === this.props.currentSong.songid) {
+            playIndex = index
+            break
+          }
+        }
+        playIndex += next
+        if (playIndex >= this.props.songList.length - 1) {
+          playIndex = 0
+        } else if (playIndex < 0){
+          playIndex = this.props.songList.length - 1
         }
       }
-      playIndex += next
-      if (playIndex >= this.props.songList.length - 1) {
-        playIndex = 0
-      } else if (playIndex < 0){
-        playIndex = this.props.songList.length - 1
-      }
+      this.props.playNextSong(this.props.songList[playIndex])
+      this.setState({
+        lyricsList: []
+      })
     }
-    this.props.playNextSong(this.props.songList[playIndex])
-    this.setState({
-      lyricsList: []
-    })
   }
 
   // 设置定时器处理音乐播放时间
