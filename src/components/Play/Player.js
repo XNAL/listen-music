@@ -33,6 +33,7 @@ export default class Player extends Component {
     this.changeShowArea = this.changeShowArea.bind(this)
     this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleTouchMove = this.handleTouchMove.bind(this)
+    this.clearPlaySong = this.clearPlaySong.bind(this)
   }
 
   componentDidMount() {
@@ -128,33 +129,40 @@ export default class Player extends Component {
     })
     // 音频加载失败事件(歌曲vkey过期重新获取vkey)
     this.refs.musicAudio.addEventListener("error", () => {
-      let currentSong = this.props.currentSong
-      fetch.getSongVkey(currentSong.songmid)
-        .then(res => {
-          let url = `http://dl.stream.qqmusic.qq.com/C400${currentSong.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
-          let playSong = Object.assign({}, {
-            songmid: currentSong.songmid,
-            songid: currentSong.songid,
-            name: currentSong.name,
-            singer: currentSong.singer,
-            albumpic: currentSong.albumpic,
-            url
-          })
-          this.props.playNextSong(playSong)
-          let songList = this.props.songList
-          let playIndex = -1
-          for(let [index, song] of songList.entries()) {
-            if (song.songid === currentSong.songid) {
-              playIndex = index
-              break
+      if (this.props.currentSong.songmid) {
+        let currentSong = this.props.currentSong
+        fetch.getSongVkey(currentSong.songmid)
+          .then(res => {
+            let url = `http://dl.stream.qqmusic.qq.com/C400${currentSong.songmid}.m4a?vkey=${res.data.items[0].vkey}&guid=3030549298&uin=772528797&fromtag=66`
+            let playSong = Object.assign({}, {
+              songmid: currentSong.songmid,
+              songid: currentSong.songid,
+              name: currentSong.name,
+              singer: currentSong.singer,
+              albumpic: currentSong.albumpic,
+              url
+            })
+            this.props.playNextSong(playSong)
+            let songList = this.props.songList
+            let playIndex = -1
+            for(let [index, song] of songList.entries()) {
+              if (song.songid === currentSong.songid) {
+                playIndex = index
+                break
+              }
             }
-          }
-          if (playIndex !== -1) {
-            songList.splice(playIndex, 1, playSong)
-            this.props.setSongList(songList)
-          }
-        })
+            if (playIndex !== -1) {
+              songList.splice(playIndex, 1, playSong)
+              this.props.setSongList(songList)
+            }
+          })
+      }
     })
+  }
+  componentWillUpdate () {
+    if (!(this.props.currentSong.url && this.props.currentSong.songmid)) {
+      this.clearPlaySong()
+    }
   }
 
   componentDidUpdate () {
@@ -162,6 +170,7 @@ export default class Player extends Component {
       this.refs.lyricsWrapRef.addEventListener('touchstart', this.handleTouchStart)
       this.refs.lyricsWrapRef.addEventListener('touchmove', this.handleTouchMove)
     }
+
   }
 
   // 播放/暂停音乐
@@ -219,9 +228,12 @@ export default class Player extends Component {
       // 设定定时器，根据播放时间调整播放进度
       this.timer = setInterval(() => {
         let currentTime = this.musicCurrentTime()
-        this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
-          currentDuration: currentTime
-        }))
+
+        if (this.props.currentSong.url && this.props.currentSong.songid) {
+          this.props.changeSongDuration(Object.assign({}, this.props.currentSong, {
+            currentDuration: currentTime
+          }))
+        }
       }, 500)
     }
   }
@@ -376,12 +388,24 @@ export default class Player extends Component {
       showLyrics: isShow
     })
   }
+
+  // 清除当前播放的歌曲
+  clearPlaySong() {
+    if (!(this.props.playStatus == 0 && this.state.lyricsList.length === 0)) {
+      this.refs.musicAudio.src = ""
+      clearInterval(this.timer)
+      this.props.changePlayStatus(0)
+      this.setMusicPlayDuration(0)
+      this.setState({
+        lyricsList: []
+      })
+    }
+  }
   
   render() {
-    let currentSong = this.props.currentSong
+    let currentSong = this.props.currentSong || {}
     let playStatus = this.props.playStatus || 0
     let showPlayer = this.props.showPlayer == true
-    // this.handleTouchListener(showPlayer)
     let playMode = this.props.playMode || 'ORDER'
     let iconMode = ''
     switch(playMode.toLowerCase()) {

@@ -23,6 +23,7 @@
     height: 370px;
   }
   .songlist-header {
+    position: relative;
     display: flex;
     height: 40px;
     line-height: 40px;
@@ -36,6 +37,15 @@
     }
     .songlist-length {
       color: #8e949b;
+    }
+    .icon-delete {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
+      font-size: 16px;
+      color: #8e949b;
+      z-index: 999;
     }
   }
   .songlist-list {

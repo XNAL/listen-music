@@ -9,6 +9,7 @@ export default class SongList extends Component {
     this.playSong = this.playSong.bind(this)
     this.deleteSong = this.deleteSong.bind(this)
     this.changePlayMode = this.changePlayMode.bind(this)
+    this.deleteAllSong = this.deleteAllSong.bind(this)
   }
 
   hideSongList() {
@@ -26,9 +27,19 @@ export default class SongList extends Component {
     songList.splice(index, 1)
     this.props.setSongList(songList)
     if (deleteSongid === this.props.currentSong.songid) {
-      let newIndex = songList.length <= index ? 0 : index
-      this.props.playSong(songList[newIndex])
+      if (songList.length === 0) {
+        this.props.playSong({})
+      } else {
+        let newIndex = songList.length <= index ? 0 : index
+        this.props.playSong(songList[newIndex])
+      }
     }
+  }
+
+  deleteAllSong(e) {
+    e.stopPropagation()
+    this.props.playSong({})
+    this.props.setSongList([])
   }
 
   changePlayMode(playMode) {
@@ -69,6 +80,7 @@ export default class SongList extends Component {
             <i className={'iconfont icon-' + iconMode} />
             <span className="songlist-mode">{modeText}</span>
             <span className="songlist-length">({songList.length}首)</span>
+            <i className="iconfont icon-delete" onClick={this.deleteAllSong} />
           </div>
           <ul className="songlist-list">
             {songList.map((val, index) => (
