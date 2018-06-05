@@ -17,13 +17,11 @@ export default class MiniPlay extends Component {
     this.showPlayer = this.showPlayer.bind(this)
   }
 
-  componentDidMount() {
-    
-  }
-
   // 播放/暂停音乐
   playMusic() {
-    this.props.parentPlayMusic()
+    if (this.props.currentSong.url && this.props.currentSong.songmid) {
+      this.props.parentPlayMusic()
+    }
   }
 
   // 设置播放进度
@@ -37,9 +35,11 @@ export default class MiniPlay extends Component {
 
   // 显示歌曲列表
   showSongList() {
-    this.setState({
-      showSongList: true
-    })
+    if (this.props.currentSong.url && this.props.currentSong.songmid) {
+      this.setState({
+        showSongList: true
+      })
+    }
   }
 
   // 隐藏歌曲列表
@@ -58,7 +58,9 @@ export default class MiniPlay extends Component {
 
   // 显示播放器
   showPlayer() {
-    this.props.parentShowPlayer()
+    if (this.props.currentSong.url && this.props.currentSong.songmid) {
+      this.props.parentShowPlayer()
+    }
   }
 
   render() {
@@ -74,25 +76,32 @@ export default class MiniPlay extends Component {
             <div className={'song-img ' + (playStatus == 1 ? 'running' : 'paused')}>
               <img src={currentSong.albumpic ? currentSong.albumpic : musicImg} alt="" />
             </div>
-            <div className="song-name-lyrics">
-              <div className="song-name">{currentSong.name}</div>
-              <div className="song-lyrics">
+            {
+              currentSong.url && currentSong.songmid &&
+              <div className="song-name-lyrics">
+                <div className="song-name">{currentSong.name}</div>
+                <div className="song-lyrics">
+                  {
+                    this.props.playStatus == 1 && this.props.lyricsList.length > 0 && 
+                    <ul className={'song-lyrics-list ' + (this.props.lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * this.props.lyricIndex}px)` }}>
+                      {
+                        this.props.lyricsList.map((val, index) => (
+                          <li className={"song-lyrics-item " + (this.props.lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
+                        ))
+                      } 
+                    </ul>
+                  }
                 {
-                  this.props.playStatus == 1 && this.props.lyricsList.length > 0 && 
-                  <ul className={'song-lyrics-list ' + (this.props.lyricIndex > 0 ? 'transition' : '')} style={{transform: `translateY(${ -18 * this.props.lyricIndex}px)` }}>
-                    {
-                      this.props.lyricsList.map((val, index) => (
-                        <li className={"song-lyrics-item " + (this.props.lyricIndex === index ? 'current' : '')} key={index}>{val[1]}</li>
-                      ))
-                    } 
-                  </ul>
+                  (this.props.playStatus == 0 || this.props.lyricsList.length === 0) && 
+                  <p className="song-singer">{currentSong.singer}</p>
                 }
-              {
-                (this.props.playStatus == 0 || this.props.lyricsList.length === 0) && 
-                <p className="song-singer">{currentSong.singer}</p>
-              }
+                </div>
               </div>
-            </div>
+            }
+            {
+              !(currentSong.url && currentSong.songmid) &&
+              <p className="song-empty">听我想听的歌</p>
+            }
           </div>
           <div className="operate-group">
             <div className="play-control">

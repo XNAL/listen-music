@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './SongList.scss'
-import fetch from '../../fetch/index'
 
 export default class SongList extends Component {
   constructor(props) {
@@ -29,6 +28,10 @@ export default class SongList extends Component {
     if (deleteSongid === this.props.currentSong.songid) {
       if (songList.length === 0) {
         this.props.playSong({})
+        this.props.parentHideSongList()
+        if (this.props.parentHidePlayer) {
+          this.props.parentHidePlayer()
+        }
       } else {
         let newIndex = songList.length <= index ? 0 : index
         this.props.playSong(songList[newIndex])
@@ -40,6 +43,10 @@ export default class SongList extends Component {
     e.stopPropagation()
     this.props.playSong({})
     this.props.setSongList([])
+    this.props.parentHideSongList()
+    if (this.props.parentHidePlayer) {
+      this.props.parentHidePlayer()
+    }
   }
 
   changePlayMode(playMode) {

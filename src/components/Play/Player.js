@@ -26,6 +26,7 @@ export default class Player extends Component {
     this.hideSongList = this.hideSongList.bind(this)
     this.hidePlayer = this.hidePlayer.bind(this)
     this.handleShowPlayer = this.handleShowPlayer.bind(this)
+    this.parentHidePlayer = this.parentHidePlayer.bind(this)
     this.changePlayMode = this.changePlayMode.bind(this)
     this.fomatSongTime = this.fomatSongTime.bind(this)
     this.songLyricIndex = this.songLyricIndex.bind(this)
@@ -129,7 +130,7 @@ export default class Player extends Component {
     })
     // 音频加载失败事件(歌曲vkey过期重新获取vkey)
     this.refs.musicAudio.addEventListener("error", () => {
-      if (this.props.currentSong.songmid) {
+      if (this.props.currentSong && this.props.currentSong.songmid) {
         let currentSong = this.props.currentSong
         fetch.getSongVkey(currentSong.songmid)
           .then(res => {
@@ -159,18 +160,15 @@ export default class Player extends Component {
       }
     })
   }
-  componentWillUpdate () {
-    if (!(this.props.currentSong.url && this.props.currentSong.songmid)) {
-      this.clearPlaySong()
-    }
-  }
 
   componentDidUpdate () {
     if (this.refs.lyricsWrapRef) {
       this.refs.lyricsWrapRef.addEventListener('touchstart', this.handleTouchStart)
       this.refs.lyricsWrapRef.addEventListener('touchmove', this.handleTouchMove)
     }
-
+    if (!(this.props.currentSong.url && this.props.currentSong.songmid)) {
+      this.clearPlaySong()
+    }
   }
 
   // 播放/暂停音乐
@@ -285,6 +283,11 @@ export default class Player extends Component {
   // 显示播放器
   handleShowPlayer() {
     this.props.setShowPlayer(true)
+  }
+
+  // 隐藏播放器（播放列表全部清空时触发）
+  parentHidePlayer() {
+    this.props.setShowPlayer(false)
   }
 
   // 处理touchstart事件
@@ -514,6 +517,7 @@ export default class Player extends Component {
         }
         <SongList showSongList={this.state.showSongList}
           parentHideSongList={this.hideSongList}
+          parentHidePlayer={this.parentHidePlayer}
         />
         { !showPlayer && 
           <MiniPlay currentSong={currentSong} 
