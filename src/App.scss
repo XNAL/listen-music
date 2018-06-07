@@ -1,4 +1,5 @@
 .App-header {
+  position: relative;
   background-color: #2D8CF0;
   color: #fff;
 }
@@ -7,4 +8,62 @@
   font-size: 1.5em;
   line-height: 2;
   text-align: center;
+}
+
+.icon-explain {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.modal-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .3);
+  z-index: 999999;
+
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 85%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 6px;
+  }
+  .modal-title {
+    padding: 5px 0;
+    font-size: 18px;
+    color: #666;
+    line-height: 2;
+    text-align: center;
+    border-bottom: 1px solid #E2E3E7;
+  }
+  .modal-content {
+    padding: 10px 20px;
+  }
+  .modal-content-item {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    font-weight: 300;
+
+    a {
+      color: #2D8CF0;
+    }
+  }
+  .modal-footer {
+    padding: 5px 0;
+    font-size: 18px;
+    color: #666;
+    line-height: 2;
+    text-align: center;
+    border-top: 1px solid #E2E3E7;
+  }
 }
