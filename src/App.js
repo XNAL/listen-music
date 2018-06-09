@@ -9,19 +9,25 @@ export default class App extends Component {
       isShowModal: false
     }
     this.showModal = this.showModal.bind(this)
-    this.hideModal = this.hideModal.bind(this)
   }
 
-  showModal () {
+  showModal (isShow) {
+    this.showModalScroll(isShow)
     this.setState({
-      isShowModal: true
+      isShowModal: isShow
     })
   }
 
-  hideModal () {
-    this.setState({
-      isShowModal: false
-    })
+  showModalScroll(isShow) {
+    let $html = document.querySelector('html')
+    let $body = document.querySelector('body')
+    if (isShow) {
+      $html.setAttribute('style', 'overflow:hidden;')
+      $body.setAttribute('style', 'overflow:hidden;')
+    } else {
+      $html.setAttribute('style', 'overflow:auto;')
+      $body.setAttribute('style', 'overflow:auto;')
+    }
   }
 
   render() {
@@ -29,7 +35,7 @@ export default class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Listen Music</h1>
-          <i className="iconfont icon-explain" onClick={this.showModal} />
+          <i className="iconfont icon-explain" onClick={() => this.showModal(true)} />
         </header>
         <NavBar />
         {
@@ -46,7 +52,7 @@ export default class App extends Component {
                   <a href="http://www.tdon.site">My Blog.</a>
                 </p>
               </div>
-              <div className="modal-footer" onClick={this.hideModal}>关闭</div>
+              <div className="modal-footer" onClick={() => this.showModal(false)}>关闭</div>
             </div>
           </section>
         }

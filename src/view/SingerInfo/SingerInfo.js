@@ -160,10 +160,24 @@ export default class SingerInfo extends Component {
   }
 
   showDescModal(isShow) {
+    this.showModalScroll(isShow)
     this.setState({
       showDescModal: isShow
     })
   }
+
+  showModalScroll(isShow) {
+    let $html = document.querySelector('html')
+    let $body = document.querySelector('body')
+    if (isShow) {
+      $html.setAttribute('style', 'overflow:hidden;')
+      $body.setAttribute('style', 'overflow:hidden;')
+    } else {
+      $html.setAttribute('style', 'overflow:auto;')
+      $body.setAttribute('style', 'overflow:auto;')
+    }
+  }
+
   render() {
     const isExistData = this.state.singerInfo !== null
     let arrDesc = (this.state.singerInfo && this.state.singerInfo.SingerDesc) ? (this.state.singerInfo.SingerDesc.split('\n') || []) : []
